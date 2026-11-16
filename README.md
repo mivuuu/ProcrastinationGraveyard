@@ -2,6 +2,8 @@
 
 A native, offline Android productivity app. Unfinished commitments become persistent gravestones; completing them brings flowers. There are no accounts, ads, analytics, scores, or cloud services.
 
+Current application: **0.1.1** (`versionCode` **2**). This patch fixes flower selection visuals, cemetery surface ownership during navigation, grave-sheet safe areas and camera-relative clouds. See [the patch report](docs/VISUAL_FIXES_0.1.1.md).
+
 ## Stack and requirements
 
 Kotlin 2.1.10, AppCompat 1.7.0 for Android app locales, Compose Foundation with a custom design system (BOM 2025.02.00), Navigation 2.8.9, SceneView 2.3.0 / Google Filament 1.56.0, Hilt 2.55, Room 2.6.1, DataStore 1.1.3, Coroutines / Flow, WorkManager 2.10.0, AGP 8.7.3 and Gradle 8.9. Android 8.0 / API 26 or newer, OpenGL ES 3.0. Build with JDK 17, Android platform 35, and Build Tools 35.0.0. Dependency versions are intentionally pinned.
@@ -70,6 +72,8 @@ Deadlines are instants stored as epoch milliseconds. The editor interprets local
 Application source, original copy, icon, and procedural artwork: [MIT](LICENSE). Third-party packages retain their own licenses. [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) records Maven POM declarations; full principal license texts and attribution are bundled in Settings → Open-source licenses and `app/src/main/assets/THIRD_PARTY_NOTICES.txt`. Nunito is bundled under SIL OFL 1.1 with its full notice and verified Latin/Cyrillic glyph coverage. No external models, photographs or generated bitmap assets are required.
 
 ## Verification status and limitations
+
+Version 0.1.1 passed 56 JVM tests and all 20 Android instrumentation tests, including flower/halo cleanup and repeated reduced-motion selection, fixed Close positioning at 2× text and in landscape, 20 tab round trips plus rapid switching, shared-engine/view cleanup, camera-relative clouds across far panning/zoom, and existing native animation/data/notification regressions. See [the 0.1.1 report](docs/VISUAL_FIXES_0.1.1.md), `docs/verification/0.1.1/` and `docs/screenshots/0.1.1/`.
 
 The custom UI redesign passed 56 JVM tests and all 18 Android instrumentation tests. After visual polish, all eight UI/native interaction tests passed again; two targeted portrait/large-text/landscape panel-inset tests also passed. Actual light/dark English/Russian captures, forms, settings and a 320 dp / 2× text keyboard capture are in `docs/screenshots/custom-ui/`. The native renderer/material hashes remain unchanged.
 

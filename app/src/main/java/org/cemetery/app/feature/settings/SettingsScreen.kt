@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import org.cemetery.app.BuildConfig
 import org.cemetery.app.R
 import org.cemetery.app.data.Settings
 import org.cemetery.app.core.*
@@ -44,7 +45,7 @@ import org.cemetery.app.ui.*
         CemeteryPanel(Modifier.fillMaxWidth()){
             Column(Modifier.padding(18.dp),verticalArrangement=Arrangement.spacedBy(12.dp)){
                 CemeteryText(stringResource(R.string.about),style=CemeteryDesign.type.button)
-                CemeteryText(stringResource(R.string.about_body),color=CemeteryDesign.colors.secondary)
+                CemeteryText(stringResource(R.string.about_body,BuildConfig.VERSION_NAME),color=CemeteryDesign.colors.secondary)
                 CemeteryButton(stringResource(R.string.licenses),{licenses=true},kind=ButtonKind.SECONDARY)
             }
         }

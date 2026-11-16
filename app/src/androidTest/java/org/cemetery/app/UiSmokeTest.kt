@@ -63,11 +63,16 @@ class UiSmokeTest {
             val origin=IntArray(2);scene.getLocationOnScreen(origin);bottomPixel=origin[1]+((1-bottom.y)*scene.height).toInt()
             val p=scene.cameraNode.worldToView(io.github.sceneview.math.Position(root.position.x,root.position.y+StoneSpec(grave).height*root.scale.y/2,root.position.z))
             assertEquals(.5f,p.x,.02f);assertTrue("Presentation is obscured: $p",p.y in .67f.. .94f)
-            assertTrue(scene.childNodes.any{it.name=="outline:${grave.id}"})
+            assertTrue(scene.childNodes.any{it.name=="${if(grave.resurrected)"halo" else "outline"}:${grave.id}"})
             val m=root.worldTransform.toColumnsFloatArray();assertEquals("Stone did not stop facing front",1f,m[10]/root.scale.x,.02f)
         }
         val sheet=device.wait(Until.findObject(By.res("grave-sheet")),5000)
         assertNotNull("Missing task sheet bounds",sheet)
+        val close=device.wait(Until.findObject(By.res("grave-close")),5000)
+        assertNotNull("Close must remain visible without scrolling",close)
+        val density=context.resources.displayMetrics.density
+        assertTrue("Close button is clipped",close.visibleBounds.height()>=48*density-2)
+        assertTrue("Close has no bottom breathing space",sheet.visibleBounds.bottom-close.visibleBounds.bottom>=12*density)
         var navigationBottom=0
         instrumentation.runOnMainSync{
             val host=androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(androidx.test.runner.lifecycle.Stage.RESUMED).firstOrNull()

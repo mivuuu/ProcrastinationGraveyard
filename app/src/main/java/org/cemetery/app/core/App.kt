@@ -1,5 +1,8 @@
 package org.cemetery.app.core
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import io.github.sceneview.rememberEngine
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import org.cemetery.app.ui.*
@@ -56,6 +59,8 @@ val LocalHostActivity = staticCompositionLocalOf<androidx.activity.ComponentActi
             val error by vm.errors.collectAsStateWithLifecycle()
             val owner=LocalLifecycleOwner.current
             LaunchedEffect(owner) {owner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){while(true){vm.refresh();delay(15_000)}}}
+            // Keep the expensive Filament engine across tab changes; viewport resources remain destination-scoped.
+            val cemeteryEngine=rememberEngine()
             val nav=rememberNavController()
             val entry by nav.currentBackStackEntryAsState()
             val route=entry?.destination?.route ?: "tasks"
@@ -75,9 +80,10 @@ val LocalHostActivity = staticCompositionLocalOf<androidx.activity.ComponentActi
                         settings=if(route!="settings")({selectedId=null;presentationReadyId=null;nav.navigate("settings"){launchSingleTop=true}}) else null,
                         back=if(route=="settings")({nav.popBackStack()}) else null)
                     Box(Modifier.weight(1f)) {
-                        NavHost(nav,startDestination="tasks") {
+                        // SurfaceView uses a separate compositor surface and cannot participate in crossfades.
+                        NavHost(nav,startDestination="tasks",enterTransition={EnterTransition.None},exitTransition={ExitTransition.None},popEnterTransition={EnterTransition.None},popExitTransition={ExitTransition.None}) {
                             composable("tasks"){TaskScreen(snapshot,now,edit={editingId=it?.id;editor=true},complete={vm.complete(it.id)},visit={select(it)},remove={deleteId=it.id})}
-                            composable("cemetery"){CemeteryScreen(snapshot,now,dark,camera,selectedId,presentationBusy,onSelect={select(it)},onPresentationState={id,ready->presentationBusy=id!=null;presentationReadyId=if(ready)id else null;if(id==null && selectedId!=null && snapshot.graves.none{it.id==selectedId})selectedId=null})}
+                            composable("cemetery"){CemeteryScreen(cemeteryEngine,snapshot,now,dark,camera,selectedId,presentationBusy,onSelect={select(it)},onPresentationState={id,ready->presentationBusy=id!=null;presentationReadyId=if(ready)id else null;if(id==null && selectedId!=null && snapshot.graves.none{it.id==selectedId})selectedId=null})}
                             composable("settings"){SettingsScreen(settings,vm)}
                         }
                     }

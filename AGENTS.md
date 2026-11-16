@@ -38,3 +38,9 @@ Never use `git push --force` or any other force-push option. Preserve local and 
 If authentication or permissions prevent pushing, explain the blocker and report the actual commit/build state instead of claiming success.
 
 Every completed development prompt must end with the debug APK build, Git commit and GitHub push, including small UI changes, translations, fixes and refactoring.
+
+## Permanent application version rule
+
+After every successfully completed development prompt, increment the application patch version and Android versionCode, run relevant tests, build the APK, commit all intended changes, and push to GitHub.
+
+Use Semantic Versioning (`MAJOR.MINOR.PATCH`), increasing the patch by exactly one and `versionCode` by one for each completed task. Bump the actual Gradle version before the final APK build and include it in the task commit. Preserve the application ID and signing configuration. Settings/About must display `BuildConfig.VERSION_NAME` through English/Russian resources. Never reset or reuse a versionCode. If a task fails and no changes are delivered, do not increment the version. Report previous and new versions. This rule starts with `0.1.0` / code `1` → `0.1.1` / code `2`; always read the actual current Gradle values before the next increment.

@@ -69,7 +69,7 @@
   <string name="philosophical">Philosophical</string>
   <string name="dark_humor">Dark humor</string>
   <string name="about">About the application</string>
-  <string name="about_body">A calm, offline space for your commitments. No accounts, ads, analytics, or cloud. Version 0.1.0.</string>
+  <string name="about_body">A calm, offline space for your commitments. No accounts, ads, analytics, or cloud. Version %1$s.</string>
   <string name="licenses">Open-source licenses</string>
   <string name="licenses_body">Application source and original procedural artwork: MIT, © 2026 Procrastination Cemetery contributors. Kotlin, AndroidX, Hilt, SceneView and Filament: Apache License 2.0. Kotlin Math: Apache License 2.0. Nunito font: SIL Open Font License 1.1. Full notices are bundled below.</string>
   <string name="error_generic">The change could not be saved. Please try again.</string>

@@ -7,13 +7,15 @@ import androidx.compose.ui.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.draw.clipToBounds
+import com.google.android.filament.Engine
 import org.cemetery.app.R
 import org.cemetery.app.domain.*
 import org.cemetery.app.core.CemeteryDesign
 import org.cemetery.app.ui.*
 
 @Composable
-fun CemeteryScreen(snapshot: Snapshot,now:Long,dark:Boolean,camera:CameraController,selectedId:String?,busy:Boolean,
+fun CemeteryScreen(engine:Engine,snapshot: Snapshot,now:Long,dark:Boolean,camera:CameraController,selectedId:String?,busy:Boolean,
                    onSelect:(Grave)->Unit,onPresentationState:(String?,Boolean)->Unit) {
     var ready by remember{mutableStateOf(false)}
     var records by remember{mutableStateOf(false)}
@@ -28,7 +30,7 @@ fun CemeteryScreen(snapshot: Snapshot,now:Long,dark:Boolean,camera:CameraControl
                 };recordButton()
             }
             Box(Modifier.fillMaxWidth().weight(1f)){
-                CemeteryScene(Modifier.fillMaxSize(),snapshot,now,dark,camera,selectedId,onSelect,onReady={ready=true},onPresentationState=onPresentationState)
+                CemeteryScene(Modifier.fillMaxSize().clipToBounds(),engine,snapshot,now,dark,camera,selectedId,onSelect,onReady={ready=true},onPresentationState=onPresentationState)
                 if(!ready)CemeteryPanel(Modifier.fillMaxSize()){
                     Column(Modifier.fillMaxSize(),verticalArrangement=Arrangement.Center,horizontalAlignment=Alignment.CenterHorizontally){
                         CemeteryLoading();Spacer(Modifier.height(16.dp));CemeteryText(stringResource(R.string.preparing_garden))

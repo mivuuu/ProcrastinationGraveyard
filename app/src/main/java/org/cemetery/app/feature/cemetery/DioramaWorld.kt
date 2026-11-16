@@ -30,7 +30,7 @@ internal class DioramaWorld(private val engine: Engine,private val meshes: Carto
     private var plantsKey=emptyList<SproutSpec>()
     private var plants=Built(emptyList(),emptyMap())
     private var selected: StoneSpec?=null
-    private var outline=Built(emptyList(),emptyMap())
+    private var selectionVisual=Built(emptyList(),emptyMap())
     private val retired=mutableListOf<Built>()
     private val sky=builder().apply{sky()}.built()
     var nodes: List<Node> = emptyList();private set
@@ -45,9 +45,9 @@ internal class DioramaWorld(private val engine: Engine,private val meshes: Carto
         graves.forEach{g->if(stones[g.id]?.first!=g){stones.remove(g.id)?.let{retired+=it.second};stones[g.id]=g to builder().apply{grave(g)}.built();changed=true}}
         if(sprouts!=plantsKey){retired+=plants;plantsKey=sprouts;plants=builder().apply{sprouts.forEachIndexed{i,p->sprout(-5.6f+(i%8)*1.6f,4.4f+i/8*.8f,p.health/10f)}}.built();changed=true}
         val selection=graves.find{it.id==selectedId}
-        if(selected!=selection){retired+=outline;selected=selection;outline=builder().apply{selection?.let{contour(it)}}.built();changed=true}
+        if(selected!=selection){selectionVisual.roots.forEach{it.isVisible=false};retired+=selectionVisual;selected=selection;selectionVisual=builder().apply{selection?.let{selectionEffect(it)}}.built();changed=true}
         if(changed){
-            nodes=buildList{addAll(sky.roots);sections.values.forEach{addAll(it.roots)};stones.values.forEach{addAll(it.second.roots)};addAll(plants.roots);addAll(outline.roots)}
+            nodes=buildList{addAll(sky.roots);sections.values.forEach{addAll(it.roots)};stones.values.forEach{addAll(it.second.roots)};addAll(plants.roots);addAll(selectionVisual.roots)}
             hits.clear();stones.values.forEach{hits.putAll(it.second.hits)}
         }
         return changed
@@ -55,21 +55,24 @@ internal class DioramaWorld(private val engine: Engine,private val meshes: Carto
     fun transform(id: String,pose: PresentationPose) {
         val root=stones[id]?.second?.nodes?.firstOrNull()?:return
         root.transform=Transform(Position(pose.x,pose.y,pose.z),Quaternion.fromEuler(Rotation(0f,pose.yaw,0f)),Scale(pose.scale))
-        if(selected?.id==id)outline.nodes.firstOrNull()?.let{it.transform=root.transform}
+        if(selected?.id==id)selectionVisual.nodes.firstOrNull()?.let{it.isVisible=true;it.transform=root.transform}
     }
-    fun restore(id: String) {stones[id]?.let{(g,_)->transform(id,PresentationPose(g.x,0f,g.z,1f,0f))}}
-    /** Sky geometry follows only normal navigation/viewport updates; selection never changes it. */
-    fun frameSky(camera: CameraController,aspect: Float) {
+    fun restore(id: String) {
+        stones[id]?.let{(g,_)->transform(id,PresentationPose(g.x,0f,g.z,1f,0f))}
+        if(selected?.id==id)selectionVisual.roots.forEach{it.isVisible=false}
+    }
+    /** Only sky/clouds inherit the camera. World plots, foliage and presentation stay independent. */
+    fun frameSky(cameraNode: CameraNode) {
         val root=sky.nodes.first()
-        val length=hypot(CameraController.HEIGHT,CameraController.LOOK_DEPTH)
-        val fy=-CameraController.HEIGHT/length;val fz=-CameraController.LOOK_DEPTH/length
-        val halfHeight=100f*12f/camera.focalLength
-        root.position=Position(camera.x,CameraController.HEIGHT+fy*100,CameraController.DEPTH+fz*100)
-        root.rotation=Rotation(-atan2(CameraController.HEIGHT,CameraController.LOOK_DEPTH)*180f/PI.toFloat(),0f,0f)
-        root.scale=Scale(halfHeight*aspect,halfHeight,1f)
+        if(root.parent!==cameraNode){
+            root.parent=cameraNode;root.position=Position(0f,0f,-100f);root.rotation=Rotation(0f)
+        }
+        // Use the actual lens projection, including viewport aspect, instead of a sensor-size guess.
+        val projection=cameraNode.projectionTransform
+        root.scale=Scale(100f/projection.x.x,100f/projection.y.y,1f)
     }
     fun releaseRetired(){retired.forEach{it.destroy()};retired.clear()}
-    fun close(){stones.values.forEach{it.second.destroy()};sections.values.forEach{it.destroy()};plants.destroy();outline.destroy();sky.destroy();releaseRetired();nodes=emptyList();hits.clear()}
+    fun close(){stones.values.forEach{it.second.destroy()};sections.values.forEach{it.destroy()};plants.destroy();selectionVisual.destroy();sky.destroy();releaseRetired();nodes=emptyList();hits.clear()}
 }
 
 private class CartoonWorldBuilder(private val engine: Engine,private val meshes: CartoonMeshFactory,private val materials: List<MaterialInstance>) {
@@ -89,7 +92,7 @@ private class CartoonWorldBuilder(private val engine: Engine,private val meshes:
             if(cache==null)owned+=mesh
             val node=RenderableNode(engine,primitiveCount=1,boundingBox=mesh.boundingBox,materialInstances=listOf(materials[key.first]),builder={geometry(mesh,listOf(0..mesh.primitivesOffsets.last().last));castShadows(false);receiveShadows(false)}).apply{
                 scale=Scale(unit);isTouchable=key.second!=null;isHittable=key.second!=null
-                name=items.firstOrNull{it.name.startsWith("forest:")}?.name?:if(key.second!=null)"grave:${key.second}" else "decoration-batch"
+                name=items.firstOrNull{it.name.startsWith("forest:") || it.name=="cartoon-clouds"}?.name?:if(key.second!=null)"grave:${key.second}" else "decoration-batch"
                 if(key.second==null)collisionShape=null
                 parent=this@CartoonWorldBuilder.parent
             }
@@ -124,9 +127,17 @@ private class CartoonWorldBuilder(private val engine: Engine,private val meshes:
         repeat(3){i->ball((i-1)*.35f,.035f,.28f,.28f,.10f+(if(i==1).04f else 0f),.20f,19)}
         tuft(-.76f,.04f,.65f);tuft(.77f,.06f,.60f)
     }
-    fun contour(g: StoneSpec) {
-        group("outline:${g.id}",g.x,g.z);unit=g.size;modelKey="outline:${g.variant.mod(4)}:${g.flower}"
-        val points=if(g.flower)listOf(-.43f to .05f,.43f to .05f,.43f to 1.25f,-.43f to 1.25f) else StoneProfiles.outline(g.variant)
+    fun selectionEffect(g: StoneSpec) {
+        unit=g.size
+        if(g.flower){
+            // A quiet, round pool of light beneath the flower, never a box/contour proxy.
+            group("halo:${g.id}",g.x,g.z);modelKey="flower-halo"
+            ball(0f,.012f,0f,.47f,.015f,.34f,21)
+            ball(0f,.025f,0f,.37f,.012f,.26f,6)
+            return
+        }
+        group("outline:${g.id}",g.x,g.z);modelKey="outline:${g.variant.mod(4)}:false"
+        val points=StoneProfiles.outline(g.variant)
         for(z in listOf(.25f,-.25f)) (points+points.first()).zipWithNext().forEach{(a,b)->
             val dx=b.first-a.first;val dy=b.second-a.second
             box((a.first+b.first)/2,(a.second+b.second)/2+.035f,z,.020f,hypot(dx,dy)+.01f,.020f,6).apply{rotation=Rotation(0f,0f,-atan2(dx,dy)*180f/PI.toFloat());name="selection-outline"}
@@ -170,7 +181,7 @@ private class CartoonWorldBuilder(private val engine: Engine,private val meshes:
         group("cartoon-sky")
         // Vertical gradient strips sit behind all scene geometry; no fog or gray horizon.
         repeat(12){i->box(0f,-1.1f+i*.2f,-.5f,5f,.20f,.01f,22+i)}
-        fun cloud(x:Float,y:Float,s:Float){shape(meshes.cloud,x,y,0f,.75f*s,.38f*s,1f,21)}
+        fun cloud(x:Float,y:Float,s:Float){shape(meshes.cloud,x,y,0f,.75f*s,.38f*s,1f,21).name="cartoon-clouds"}
         cloud(-.65f,.65f,1.1f);cloud(.82f,.60f,1.0f)
     }
 }

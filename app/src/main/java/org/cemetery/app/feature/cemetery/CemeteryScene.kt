@@ -10,6 +10,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.*
 import androidx.lifecycle.*
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.google.android.filament.Engine
 import com.google.android.filament.ColorGrading
 import com.google.android.filament.ToneMapper
 import com.google.android.filament.IndirectLight
@@ -18,6 +20,7 @@ import io.github.sceneview.*
 import io.github.sceneview.math.Position
 import org.cemetery.app.R
 import org.cemetery.app.domain.*
+import org.cemetery.app.ui.gravePanelFraction
 import kotlin.math.*
 
 private class CartoonFrame {
@@ -29,12 +32,12 @@ private class CartoonFrame {
 }
 
 @Composable
-fun CemeteryScene(modifier:Modifier,snapshot:Snapshot,now:Long,dark:Boolean,camera:CameraController,
+fun CemeteryScene(modifier:Modifier,engine:Engine,snapshot:Snapshot,now:Long,dark:Boolean,camera:CameraController,
                   selectedId:String?,onSelect:(Grave)->Unit,onReady:()->Unit,
                   onPresentationState:(String?,Boolean)->Unit) {
     val host=org.cemetery.app.core.LocalHostActivity.current!!
     camera.configure(snapshot.graves)
-    val engine=rememberEngine()
+    val lifecycle=LocalLifecycleOwner.current.lifecycle
     val loader=rememberMaterialLoader(engine)
     val meshes=remember(engine){CartoonMeshFactory(engine)}
     DisposableEffect(meshes){onDispose{meshes.close()}}
@@ -62,6 +65,7 @@ fun CemeteryScene(modifier:Modifier,snapshot:Snapshot,now:Long,dark:Boolean,came
         focalLength=camera.focalLength.toDouble();near=.1f;far=220f
     }
     val presentation=remember{GravePresentation()}
+    val frame=remember{CartoonFrame()}
     var heldId by remember{mutableStateOf<String?>(null)}
     var sections by remember{mutableStateOf(CemeteryPlacement.nearby(camera.x))}
     val specs=remember(snapshot.graves,sections,heldId){snapshot.graves.filter{it.chunk in sections || it.id==heldId}.map(::StoneSpec)}
@@ -81,6 +85,7 @@ fun CemeteryScene(modifier:Modifier,snapshot:Snapshot,now:Long,dark:Boolean,came
             stateCallback(presentation.id,false)
         }
         else if(presentation.select(selectedId,ValueAnimator.areAnimatorsEnabled())){
+            frame.spec=null // Reapply the foreground pose even when reduced-motion travel/yaw repeat.
             camera.lockForPresentation();heldId=selectedId;stateCallback(selectedId,presentation.informationReady)
         }
     }
@@ -88,10 +93,18 @@ fun CemeteryScene(modifier:Modifier,snapshot:Snapshot,now:Long,dark:Boolean,came
         val id=heldId
         if(id!=null && snapshot.graves.none{it.id==id}){world.restore(id);presentation.reset();heldId=null;camera.unlock();stateCallback(null,false)}
     }
-    val frame=remember{CartoonFrame()}
-    DisposableEffect(host){
-        val observer=LifecycleEventObserver{_,event->if(event==Lifecycle.Event.ON_STOP || event==Lifecycle.Event.ON_START)frame.time=0L}
-        host.lifecycle.addObserver(observer);onDispose{host.lifecycle.removeObserver(observer)}
+    val panelFraction=gravePanelFraction()
+    DisposableEffect(lifecycle){
+        val observer=LifecycleEventObserver{_,event->
+            frame.time=0L
+            frame.scene?.visibility=if(event==Lifecycle.Event.ON_RESUME)android.view.View.VISIBLE else android.view.View.INVISIBLE
+        }
+        lifecycle.addObserver(observer)
+        onDispose{
+            lifecycle.removeObserver(observer)
+            frame.scene?.apply{visibility=android.view.View.GONE;onFrame=null}
+            frame.scene=null
+        }
     }
     val context=LocalContext.current
     val touch=remember(camera,context){CemeteryGestures(camera,ViewConfiguration.get(context).scaledTouchSlop.toFloat(),context.resources.displayMetrics.density)}
@@ -99,10 +112,16 @@ fun CemeteryScene(modifier:Modifier,snapshot:Snapshot,now:Long,dark:Boolean,came
     val currentGraves by rememberUpdatedState(snapshot.graves)
     val ready by rememberUpdatedState(onReady)
     val description=stringResource(R.string.cemetery_accessibility)
-    Scene(modifier=modifier.semantics{contentDescription=description},activity=host,lifecycle=host.lifecycle,
+    Scene(modifier=modifier.semantics{contentDescription=description},activity=host,lifecycle=lifecycle,
         engine=engine,materialLoader=loader,environment=environment,cameraNode=cameraNode,childNodes=nodes,
         cameraManipulator=null,onGestureListener=null,
-        onViewCreated={frame.scene=this;val old=view.colorGrading;view.colorGrading=grading;old?.let{runCatching{engine.destroyColorGrading(it)}}},
+        onViewCreated={
+            frame.scene=this
+            setZOrderOnTop(false);setZOrderMediaOverlay(false)
+            visibility=if(lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))android.view.View.VISIBLE else android.view.View.INVISIBLE
+            val old=view.colorGrading;view.colorGrading=grading
+            old?.let{runCatching{engine.destroyColorGrading(it)}}
+        },
         onViewUpdated={world.releaseRetired()},
         onTouchEvent={event,hit->
             if(presentation.busy){touch.cancel();true} else {
@@ -130,9 +149,9 @@ fun CemeteryScene(modifier:Modifier,snapshot:Snapshot,now:Long,dark:Boolean,came
                 frame.width=viewport?.width?:0;frame.height=viewport?.height?:0
                 frame.scene?.getLocationOnScreen(frame.origin)
                 val windowHeight=host.window.decorView.height
-                if(frame.height>0)frame.available=((windowHeight*.48f-frame.origin[1])/frame.height).coerceIn(.18f,.65f)
+                if(frame.height>0)frame.available=((windowHeight*(1f-panelFraction-.08f)-frame.origin[1])/frame.height).coerceIn(.18f,.65f)
             }
-            if(framingChanged || viewportChanged)world.frameSky(camera,aspect)
+            if(framingChanged || viewportChanged)world.frameSky(cameraNode)
             val oldId=presentation.id
             presentation.advance(dt)
             if(oldId!=null && presentation.id==null){

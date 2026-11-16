@@ -69,7 +69,7 @@
   <string name="philosophical">Философский</string>
   <string name="dark_humor">Чёрный юмор</string>
   <string name="about">О приложении</string>
-  <string name="about_body">Спокойное место для ваших обещаний без интернета. Без аккаунтов, рекламы, аналитики и облака. Версия 0.1.0.</string>
+  <string name="about_body">Спокойное место для ваших обещаний без интернета. Без аккаунтов, рекламы, аналитики и облака. Версия %1$s.</string>
   <string name="licenses">Лицензии открытого ПО</string>
   <string name="licenses_body">Исходный код приложения и оригинальная процедурная графика: MIT, © 2026 участники Procrastination Cemetery. Kotlin, AndroidX, Hilt, SceneView и Filament: Apache License 2.0. Kotlin Math: Apache License 2.0. Шрифт Nunito: SIL Open Font License 1.1. Полные уведомления включены ниже.</string>
   <string name="error_generic">Не удалось сохранить изменение. Попробуйте ещё раз.</string>

@@ -5,6 +5,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -16,8 +18,8 @@ import org.cemetery.app.ui.*
 @Composable fun GraveSheet(grave: Grave, task: Task, history: List<History>, now: Long, close:()->Unit, complete:()->Unit, edit:()->Unit, remove:()->Unit) {
     val context=LocalContext.current
     var menu by remember { mutableStateOf(false) }
-    CemeteryBottomSheet(onDismiss=close,tag="grave-sheet") {
-        Column(Modifier.fillMaxWidth().weight(1f).verticalScroll(rememberScrollState()).padding(start=24.dp,end=24.dp,bottom=28.dp),verticalArrangement=Arrangement.spacedBy(14.dp)) {
+    CemeteryBottomSheet(onDismiss=close,tag="grave-sheet",fraction=gravePanelFraction()) {
+        Column(Modifier.fillMaxWidth().weight(1f).clipToBounds().verticalScroll(rememberScrollState()).padding(start=24.dp,end=24.dp,bottom=16.dp),verticalArrangement=Arrangement.spacedBy(14.dp)) {
             Row {Column(Modifier.weight(1f)){
                 CemeteryText(stringResource(R.string.grave_details),style=CemeteryDesign.type.small,color=CemeteryDesign.colors.secondary)
                 CemeteryText(task.title,style=CemeteryDesign.type.title)
@@ -39,7 +41,10 @@ import org.cemetery.app.ui.*
                 history.forEach {CemeteryText(if(it.type=="rescheduled")stringResource(R.string.history_rescheduled,dateTime(context,it.previousDeadline),dateTime(context,it.newDeadline)) else stringResource(R.string.history_completed,dateTime(context,it.at)),style=CemeteryDesign.type.small,color=CemeteryDesign.colors.secondary)}
             }
             if(task.completedAt==null){CemeteryButton(stringResource(R.string.done),complete,Modifier.fillMaxWidth(),glyph=CemeteryGlyph.CHECK);CemeteryButton(stringResource(R.string.reschedule),edit,Modifier.fillMaxWidth(),kind=ButtonKind.SECONDARY)}
-            CemeteryButton(stringResource(R.string.close),close,Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
+        }
+        Column(Modifier.fillMaxWidth().padding(horizontal=24.dp).padding(top=8.dp,bottom=16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
+            CemeteryDivider()
+            CemeteryButton(stringResource(R.string.close),close,Modifier.fillMaxWidth().testTag("grave-close"),kind=ButtonKind.QUIET)
         }
     }
     if(menu)CemeteryDialog({menu=false}){

@@ -89,12 +89,13 @@ enum class ButtonKind { PRIMARY,SECONDARY,QUIET,DANGER }
     androidx.compose.foundation.Canvas(modifier.size(36.dp)){drawArc(c.accent,if(motion)angle else 0f,260f,false,style=androidx.compose.ui.graphics.drawscope.Stroke(4.dp.toPx(),cap=StrokeCap.Round))}
 }
 /** The custom scrim owns dimming; Android's default dialog dim must not darken it twice. */
-@Composable private fun CemeteryDialogWindow(){
+@Composable private fun CemeteryDialogWindow(fullScreen:Boolean=false){
     val view=LocalView.current;val dark=CemeteryDesign.colors.dark
     SideEffect {
         (view.parent as? DialogWindowProvider)?.window?.let{window->
             window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             window.setDimAmount(0f)
+            if(fullScreen)window.setLayout(android.view.WindowManager.LayoutParams.MATCH_PARENT,android.view.WindowManager.LayoutParams.MATCH_PARENT)
             window.statusBarColor=android.graphics.Color.TRANSPARENT
             window.navigationBarColor=android.graphics.Color.TRANSPARENT
             if(android.os.Build.VERSION.SDK_INT>=29)window.isNavigationBarContrastEnforced=false
@@ -116,20 +117,21 @@ enum class ButtonKind { PRIMARY,SECONDARY,QUIET,DANGER }
 }
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable fun CemeteryBottomSheet(onDismiss:()->Unit,modifier:Modifier=Modifier,fraction:Float=.44f,tag:String?=null,content:@Composable ColumnScope.()->Unit){
-    val c=CemeteryDesign.colors;val height=(LocalConfiguration.current.screenHeightDp*fraction).dp
-    // Resolve host insets before entering the separate Dialog window.
-    val navigation=WindowInsets.navigationBars.asPaddingValues()
-    val safeBottom=navigation.calculateBottomPadding()
-    val direction=LocalLayoutDirection.current
-    val safeStart=navigation.calculateStartPadding(direction);val safeEnd=navigation.calculateEndPadding(direction)
+    val c=CemeteryDesign.colors
     var drag by remember{mutableFloatStateOf(0f)};val threshold=with(LocalDensity.current){64.dp.toPx()}
-    Dialog(onDismiss,properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)){
-        CemeteryDialogWindow()
-        Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha=.12f)).semantics{testTagsAsResourceId=true}.pointerInput(onDismiss){detectTapGestures{onDismiss()}}){
-            Column(modifier.align(Alignment.BottomCenter).padding(start=safeStart,end=safeEnd,bottom=safeBottom).widthIn(max=640.dp).fillMaxWidth().offset{IntOffset(0,drag.toInt())}
-                .height(height).clip(CemeteryShapes.sheet).background(c.elevated).then(if(tag!=null)Modifier.testTag(tag) else Modifier).pointerInput(Unit){detectTapGestures{}}){
+    Dialog(onDismiss,properties=DialogProperties(usePlatformDefaultWidth=true,decorFitsSystemWindows=true)){
+        CemeteryDialogWindow(fullScreen=true)
+        // Compose 1.7.8's usePlatformDefaultWidth=false replaces the measured height with
+        // configuration.screenHeightDp. Use fitted MATCH_PARENT window constraints instead.
+        // Consume only the safe drawing insets left after the platform fits the system bars.
+        BoxWithConstraints(Modifier.fillMaxSize().background(Color.Black.copy(alpha=.12f)).windowInsetsPadding(WindowInsets.safeDrawing).semantics{testTagsAsResourceId=true}.pointerInput(onDismiss){detectTapGestures{onDismiss()}}){
+            val sheetHeight=maxHeight*fraction
+            Box(Modifier.align(Alignment.BottomCenter)){
+            Column(modifier.widthIn(max=640.dp).fillMaxWidth().offset{IntOffset(0,drag.toInt())}
+                .height(sheetHeight).clip(CemeteryShapes.sheet).background(c.elevated).then(if(tag!=null)Modifier.testTag(tag) else Modifier).pointerInput(Unit){detectTapGestures{}}){
                 Box(Modifier.fillMaxWidth().height(36.dp).pointerInput(onDismiss){detectVerticalDragGestures(onVerticalDrag={change,amount->change.consume();drag=(drag+amount).coerceAtLeast(0f)},onDragEnd={if(drag>threshold)onDismiss();drag=0f},onDragCancel={drag=0f})},contentAlignment=Alignment.Center){Box(Modifier.size(36.dp,4.dp).clip(CemeteryShapes.pill).background(c.secondary))}
                 content()
+            }
             }
         }
     }
