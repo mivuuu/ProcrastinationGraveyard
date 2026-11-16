@@ -1,0 +1,5 @@
+org.cemetery.app.CameraTest: tests=12 failures=0 errors=0 skipped=0
+org.cemetery.app.DomainTest: tests=21 failures=0 errors=0 skipped=0
+org.cemetery.app.LocalizationTest: tests=4 failures=0 errors=0 skipped=0
+org.cemetery.app.PresentationTest: tests=13 failures=0 errors=0 skipped=0
+Total: 50 tests, 0 failures, 0 errors, 0 skipped

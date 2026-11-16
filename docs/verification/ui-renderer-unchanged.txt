@@ -1,0 +1,11 @@
+app/src/main/java/org/cemetery/app/feature/cemetery/CameraController.kt: OK
+app/src/main/java/org/cemetery/app/feature/cemetery/CemeteryScene.kt: OK
+app/src/main/java/org/cemetery/app/feature/cemetery/DioramaWorld.kt: OK
+app/src/main/java/org/cemetery/app/feature/cemetery/CartoonGeometry.kt: OK
+app/src/main/java/org/cemetery/app/feature/cemetery/GravePresentation.kt: OK
+app/src/main/java/org/cemetery/app/feature/cemetery/StoneProfiles.kt: OK
+app/src/main/java/org/cemetery/app/feature/cemetery/CemeteryGestures.kt: OK
+materials/garden.mat: OK
+materials/outline.mat: OK
+app/src/main/assets/materials/garden.filamat: OK
+app/src/main/assets/materials/outline.filamat: OK

@@ -1,0 +1,354 @@
+--------- beginning of main
+11-16 02:28:39.237   862   866 I ndroid.systemui: Background concurrent mark compact GC freed 10MB AllocSpace bytes, 22(440KB) LOS objects, 50% free, 17MB/34MB, paused 380us,8.268ms total 247.651ms
+11-16 02:28:39.239   862   868 W ndroid.systemui: ApkAssets: Deleting an ApkAssets object '<empty> and /data/app/~~KWJT7dBpsSGwnXdXi3nqJA==/org.cemetery.app-hsX-CGTIZe4NpGWHeNwh3w==/base.apk' with 2 weak references
+11-16 02:28:39.271   539   557 I system_server: Background concurrent mark compact GC freed 8285KB AllocSpace bytes, 24(512KB) LOS objects, 49% free, 18MB/36MB, paused 567us,1.213ms total 278.733ms
+11-16 02:28:39.275   539   559 W system_server: ApkAssets: Deleting an ApkAssets object '<empty> and /data/app/~~KWJT7dBpsSGwnXdXi3nqJA==/org.cemetery.app-hsX-CGTIZe4NpGWHeNwh3w==/base.apk' with 1 weak references
+11-16 02:28:39.281   539   559 W system_server: ApkAssets: Deleting an ApkAssets object '<empty> and /product/app/LatinIME/LatinIME.apk' with 1 weak references
+11-16 02:28:39.282   539   559 W system_server: ApkAssets: Deleting an ApkAssets object '<empty> and /system_ext/app/AccessibilityMenu/AccessibilityMenu.apk' with 1 weak references
+11-16 02:28:39.282   539   559 W system_server: ApkAssets: Deleting an ApkAssets object '<empty> and /system/priv-app/InputDevices/InputDevices.apk' with 1 weak references
+--------- beginning of system
+11-16 02:28:39.344   539  1533 W ActivityTaskManager: callingPackage for (uid=2000, pid=2979) has no WPC
+11-16 02:28:39.345   539  1533 D CompatChangeReporter: Compat change id reported: 151861875; UID 10148; state: ENABLED
+11-16 02:28:39.345   539  1533 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_ORIENTATION_OVERRIDE
+11-16 02:28:39.348   539  1533 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10148, packageName = null, attributionTag = null, token = android.os.Binder@3a39c31, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+11-16 02:28:39.351   539  1533 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_RESIZEABLE_ACTIVITY_OVERRIDES
+11-16 02:28:39.351   539  1533 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_MIN_ASPECT_RATIO_OVERRIDE
+11-16 02:28:39.357   539  1533 V SplashScreenExceptionList: SplashScreen checking exception for package org.cemetery.app (target sdk:35) -> false
+11-16 02:28:39.369   862   908 V WindowManagerShell: Transition requested (#30): android.os.BinderProxy@86a2258 TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=18 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.cemetery.app/.MainActivity } baseActivity=ComponentInfo{org.cemetery.app/org.cemetery.app.MainActivity} topActivity=ComponentInfo{org.cemetery.app/org.cemetery.app.MainActivity} origActivity=null realActivity=ComponentInfo{org.cemetery.app/org.cemetery.app.MainActivity} numActivities=1 lastActiveTime=1214215 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@3b79fb1} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{bbd1c96 org.cemetery.app.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= falseisLetterboxEducationEnabled= false isLetterboxDoubleTapEnabled= false topActivityEligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=1080 topActivityLetterboxHeight=2340 isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatControlState=hidden freeformCameraCompatMode=inactive}}}, pipTask = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 30 }
+11-16 02:28:39.373   539  1533 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=org.cemetery.app/.MainActivity} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+11-16 02:28:39.374   539   569 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10148, packageName = null, attributionTag = null, token = android.os.Binder@3a39c31, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+11-16 02:28:39.381  1156  1156 W SplitSelectStateCtor: Missing session instanceIds
+11-16 02:28:39.381  1156  1156 D StatsLog: LAUNCHER_SPLIT_SELECTION_EXIT_INTERRUPTED
+11-16 02:28:39.390   862   976 D SplashScreenView: Build android.window.SplashScreenView{60685a5 V.E...... ......ID 0,0-0,0}
+11-16 02:28:39.390   862   976 D SplashScreenView: Icon: view: android.widget.ImageView{1d5d7a V.ED..... ......I. 0,0-0,0 #1020504 android:id/splashscreen_icon_view} drawable: com.android.wm.shell.startingsurface.SplashscreenIconDrawableFactory$ImmobileIconDrawable@558292b size: 440
+11-16 02:28:39.390   862   976 D SplashScreenView: Branding: view: android.view.View{556d188 G.ED..... ......I. 0,0-0,0 #1020503 android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+11-16 02:28:39.391   539   807 I AppWidgetServiceImpl: Received broadcast: android.intent.action.PACKAGE_UNSTOPPED on user 0
+11-16 02:28:39.391   539   807 I AppWidgetServiceImpl: Updating package stopped masked state for uid 10148 package org.cemetery.app isStopped false
+11-16 02:28:39.392  1156  1156 I TopTaskTracker: onTaskMovedToFront: (moved taskInfo to front) taskId=18, baseIntent=Intent { flg=0x10000000 cmp=org.cemetery.app/.MainActivity }
+11-16 02:28:39.394   539   913 D CoreBackPreview: Window{a45b839 u0 Splash Screen org.cemetery.app}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@158efdf, mPriority=0, mIsAnimationCallback=false}
+11-16 02:28:39.400   352   352 D Zygote  : Forked child process 2982
+11-16 02:28:39.401   862   908 D WindowManagerShell: setLauncherKeepClearAreaHeight: visible=false, height=308
+11-16 02:28:39.402   539   579 I ActivityManager: Start proc 2982:org.cemetery.app/u0a148 for next-top-activity {org.cemetery.app/org.cemetery.app.MainActivity}
+11-16 02:28:39.419  2982  2982 I rg.cemetery.app: Late-enabling -Xcheck:jni
+11-16 02:28:39.451  2982  2982 I rg.cemetery.app: Using CollectorTypeCMC GC.
+11-16 02:28:39.451  2982  2982 W rg.cemetery.app: Unexpected CPU variant for x86: x86_64.
+11-16 02:28:39.451  2982  2982 W rg.cemetery.app: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, default
+11-16 02:28:39.474   422   422 I BpBinder: onLastStrongRef automatically unlinking death recipients: 
+11-16 02:28:39.506   862   862 D ControlsListingControllerImpl: ServiceConfig reloaded, count: 0
+11-16 02:28:39.506   862   862 D ControlsListingControllerImpl: ServiceConfig reloaded, count: 0
+11-16 02:28:39.506   862   862 D ControlsListingControllerImpl: ServiceConfig reloaded, count: 0
+11-16 02:28:39.507   429   448 I adbd    : jdwp connection from 2982
+11-16 02:28:39.509  1334  1334 W MediaProvider: WorkProfileOwnerApps cache is empty
+11-16 02:28:39.509  1334  1334 D PickerSyncLockManager: Trying to acquire lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@dd9c0fe[Unlocked]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that may be waiting to acquire this lock = []
+11-16 02:28:39.509  1334  1334 D CloseableReentrantLock: Successfully acquired lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@dd9c0fe[Locked by thread main]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that may be waiting to acquire this lock = []
+11-16 02:28:39.509  1334  1334 D CloseableReentrantLock: Successfully released lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@dd9c0fe[Unlocked]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that may be waiting to acquire this lock = []
+11-16 02:28:39.511  2982  2982 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+11-16 02:28:39.531   862  1139 V WindowManagerShell: onTransitionReady(transaction=2314987377043)
+11-16 02:28:39.532   539   566 V WindowManager: Sent Transition (#30) createdAt=11-16 02:28:39.352 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=18 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=org.cemetery.app/.MainActivity } baseActivity=ComponentInfo{org.cemetery.app/org.cemetery.app.MainActivity} topActivity=ComponentInfo{org.cemetery.app/org.cemetery.app.MainActivity} origActivity=null realActivity=ComponentInfo{org.cemetery.app/org.cemetery.app.MainActivity} numActivities=1 lastActiveTime=1214215 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{7b2ecc4 Task{bdf8ae7 #18 type=standard A=10148:org.cemetery.app}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{eeab7ad org.cemetery.app.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= falseisLetterboxEducationEnabled= false isLetterboxDoubleTapEnabled= false topActivityEligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=1080 topActivityLetterboxHeight=2340 isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatControlState=hidden freeformCameraCompatMode=inactive}}}, pipTask = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 30 }
+11-16 02:28:39.532   539   566 V WindowManager:     startWCT=WindowContainerTransaction { changes = {} hops = [] errorCallbackToken=null taskFragmentOrganizer=null }
+11-16 02:28:39.533   539   566 V WindowManager:     info={id=30 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[
+11-16 02:28:39.533   539   566 V WindowManager:         {WCT{RemoteToken{7b2ecc4 Task{bdf8ae7 #18 type=standard A=10148:org.cemetery.app}}} m=OPEN f=NONE leash=Surface(name=Task=18)/@0x95a5f56 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},
+11-16 02:28:39.533   539   566 V WindowManager:         {WCT{RemoteToken{2a082a4 Task{4179e52 #1 type=home}}} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x32bb71b sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}
+11-16 02:28:39.533   539   566 V WindowManager:     ]}
+11-16 02:28:39.542   862   908 W Looper  : Slow dispatch took 35ms wmshell.main h=android.os.Handler c=com.android.wm.shell.common.ShellExecutor$$ExternalSyntheticLambda0@4ac5fcc m=0
+11-16 02:28:39.543   862   908 V WindowManagerShell: onTransitionReady (#30) android.os.BinderProxy@86a2258: {id=30 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@748192a} m=OPEN f=NONE leash=Surface(name=Task=18)/@0x1da4959 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},{WCT{android.window.IWindowContainerToken$Stub$Proxy@1d9b31b} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x20891e sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}]}
+11-16 02:28:39.543   862   908 V WindowManagerShell: Playing animation for (#30) android.os.BinderProxy@86a2258@0
+11-16 02:28:39.543   862   908 V WindowManagerShell:  try handler com.android.wm.shell.transition.DefaultMixedHandler@6c6c1f6
+11-16 02:28:39.544   862   908 V WindowManagerShell:  try handler com.android.wm.shell.keyguard.KeyguardTransitionHandler@bfdb9f7
+11-16 02:28:39.544   862   908 V WindowManagerShell:  try handler com.android.wm.shell.pip.PipTransition@5bba064
+11-16 02:28:39.544   862   908 V WindowManagerShell:  try handler com.android.wm.shell.activityembedding.ActivityEmbeddingController@d19f2cd
+11-16 02:28:39.544   862   908 V WindowManagerShell:  try handler com.android.wm.shell.recents.RecentsTransitionHandler@3950782
+11-16 02:28:39.544   862   908 V ShellRecents: RecentsTransitionHandler.startAnimation: no controller found
+11-16 02:28:39.545   862   908 V WindowManagerShell:  try handler com.android.wm.shell.splitscreen.StageCoordinator@f49fe93
+11-16 02:28:39.545   862   908 V WindowManagerShell:  try handler com.android.wm.shell.transition.RemoteTransitionHandler@6c45ed0
+11-16 02:28:39.545   862   908 V WindowManagerShell: Transition doesn't have explicit remote, search filters for match for {id=30 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@748192a} m=OPEN f=NONE leash=Surface(name=Task=18)/@0x1da4959 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},{WCT{android.window.IWindowContainerToken$Stub$Proxy@1d9b31b} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x20891e sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}]}
+11-16 02:28:39.545   862   908 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x100 checks=[{atype=home independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=TOP topActivity=ComponentInfo{com.android.launcher3/com.android.launcher3.uioverrides.QuickstepLauncher} launchCookie=null},{atype=standard independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@9bf2151, appThread = android.app.IApplicationThread$Stub$Proxy@82e0db6, debugName = QuickstepLaunchHome }}
+11-16 02:28:39.545   862   908 V WindowManagerShell:  Delegate animation for (#30) to null
+11-16 02:28:39.545   862   908 V WindowManagerShell:  try handler com.android.wm.shell.transition.DefaultTransitionHandler@10bf0ef
+11-16 02:28:39.545   862   908 V WindowManagerShell: start default transition animation, info = {id=30 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@748192a} m=OPEN f=NONE leash=Surface(name=Task=18)/@0x1da4959 sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1},{WCT{android.window.IWindowContainerToken$Stub$Proxy@1d9b31b} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x20891e sb=Rect(0, 0 - 1080, 2340) eb=Rect(0, 0 - 1080, 2340) d=0 taskParent=-1}]}
+11-16 02:28:39.546   862   908 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@25acb8 animAttr=0x13 type=OPEN isEntrance=false
+11-16 02:28:39.546   862   908 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@8faca91 animAttr=0x12 type=OPEN isEntrance=true
+11-16 02:28:39.546   862   908 V WindowManagerShell:  animated by com.android.wm.shell.transition.DefaultTransitionHandler@10bf0ef
+11-16 02:28:39.552   539  1098 W UserManagerService: Requested status bar icon for non-badged user 0
+11-16 02:28:39.600  2982  2982 W ziparchive: Unable to open '/data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.dm': No such file or directory
+11-16 02:28:39.600  2982  2982 W ziparchive: Unable to open '/data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.dm': No such file or directory
+11-16 02:28:39.616  1156  1384 D EGL_emulation: app_time_stats: avg=52483.01ms min=52483.01ms max=52483.01ms count=1
+11-16 02:28:39.730   862   954 W Looper  : Slow delivery took 48ms wmshell.anim h=android.view.Choreographer$FrameHandler c=android.view.Choreographer$FrameDisplayEventReceiver@e9399d3 m=0
+11-16 02:28:39.742   862   954 W Looper  : Drained
+11-16 02:28:39.801  1156  1384 D EGL_emulation: app_time_stats: avg=13203.59ms min=9.49ms max=65171.96ms count=5
+11-16 02:28:39.806   862   997 D EGL_emulation: app_time_stats: avg=39768.50ms min=39768.50ms max=39768.50ms count=1
+11-16 02:28:39.882   862   954 W Looper  : Slow dispatch took 33ms wmshell.anim h=android.view.Choreographer$FrameHandler c=android.view.Choreographer$FrameDisplayEventReceiver@e9399d3 m=0
+11-16 02:28:39.882   862   908 V WindowManagerShell: Transition animation finished (aborted=false), notifying core (#30) android.os.BinderProxy@86a2258@0
+11-16 02:28:39.887   539   566 V WindowManager: Finish Transition (#30): created at 11-16 02:28:39.352 collect-started=0.027ms request-sent=15.448ms started=29.251ms ready=149.103ms sent=177.349ms finished=534.831ms
+11-16 02:28:39.898   862   908 V WindowManagerShell: Track 0 became idle
+11-16 02:28:39.898   862   908 V WindowManagerShell: All active transition animations finished
+11-16 02:28:40.004   539  1777 W UserManagerService: Requested status bar icon for non-badged user 0
+11-16 02:28:40.006   539  1777 W UserManagerService: Requested status bar icon for non-badged user 0
+11-16 02:28:40.108  1156  1156 D VRI[QuickstepLauncher]: visibilityChanged oldVisibility=true newVisibility=false
+11-16 02:28:40.508  2982  2982 D nativeloader: Configuring clns-7 for other apk /data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.apk. target_sdk_version=35, uses_libraries=, library_path=/data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/lib/x86_64:/data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/org.cemetery.app
+11-16 02:28:40.510  2982  2982 D CompatChangeReporter: Compat change id reported: 202956589; UID 10148; state: ENABLED
+11-16 02:28:40.515  2982  2982 V GraphicsEnvironment: Currently set values for:
+11-16 02:28:40.515  2982  2982 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+11-16 02:28:40.515  2982  2982 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+11-16 02:28:40.515  2982  2982 V GraphicsEnvironment: Global.Settings values are invalid: number of packages: 0, number of values: 0
+11-16 02:28:40.515  2982  2982 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+11-16 02:28:40.524  2982  2982 D WM-WrkMgrInitializer: Initializing WorkManager with default configuration.
+11-16 02:28:40.569  2982  2982 D WM-PackageManagerHelper: Skipping component enablement for androidx.work.impl.background.systemjob.SystemJobService
+11-16 02:28:40.569  2982  2982 D WM-Schedulers: Created SystemJobScheduler and enabled SystemJobService
+11-16 02:28:40.592  2982  2997 D WM-ForceStopRunnable: The default process name was not specified.
+11-16 02:28:40.593  2982  2997 D WM-ForceStopRunnable: Performing cleanup operations.
+11-16 02:28:40.614  2982  2982 D CompatChangeReporter: Compat change id reported: 279646685; UID 10148; state: ENABLED
+11-16 02:28:40.629   539  1777 D CompatChangeReporter: Compat change id reported: 324203798; UID 10148; state: ENABLED
+11-16 02:28:40.632  2982  2982 D WM-RescheduleReceiver: Received intent Intent { act=android.intent.action.BOOT_COMPLETED flg=0x9000030 pkg=org.cemetery.app cmp=org.cemetery.app/androidx.work.impl.background.systemalarm.RescheduleReceiver (has extras) }
+11-16 02:28:40.679  2982  2982 D AppCompatDelegate: Checking for metadata for AppLocalesMetadataHolderService : Service not found
+11-16 02:28:40.701  2982  2997 D WM-SystemJobScheduler: Reconciling jobs
+11-16 02:28:40.722  2982  2997 D WM-ForceStopRunnable: Application was force-stopped, rescheduling.
+11-16 02:28:40.738  2982  2982 D CompatChangeReporter: Compat change id reported: 309578419; UID 10148; state: ENABLED
+11-16 02:28:40.738  2982  2997 D CompatChangeReporter: Compat change id reported: 311402873; UID 10148; state: ENABLED
+11-16 02:28:40.739  2982  2997 D CompatChangeReporter: Compat change id reported: 323349338; UID 10148; state: ENABLED
+11-16 02:28:40.739  2982  2997 D WM-SystemJobScheduler: Scheduling work ID 3e9ffc48-0bb0-4afe-ab82-02ea9024f2ffJob ID 4
+11-16 02:28:40.740   539  1098 D CompatChangeReporter: Compat change id reported: 311402873; UID 10148; state: ENABLED
+11-16 02:28:40.740   539  1098 D CompatChangeReporter: Compat change id reported: 323349338; UID 10148; state: ENABLED
+11-16 02:28:40.742   539  1098 I BroadcastQueue: BOOT_COMPLETED_BROADCAST_COMPLETION_LATENCY_REPORTED action:android.intent.action.BOOT_COMPLETED dispatchLatency:1 completeLatency:1190 dispatchRealLatency:1 completeRealLatency:1190 receiversSize:1 userId:0 userType:android.os.usertype.full.SYSTEM
+11-16 02:28:40.774  2982  3001 D WM-PackageManagerHelper: Skipping component enablement for androidx.work.impl.background.systemalarm.RescheduleReceiver
+11-16 02:28:40.775  2982  2982 W rg.cemetery.app: Accessing hidden method Landroid/view/ViewGroup;->makeOptionalFitsSystemWindows()V (unsupported, reflection, allowed)
+11-16 02:28:40.784  2982  2982 W HWUI    : Unknown dataspace 0
+11-16 02:28:41.123   539  1777 D CoreBackPreview: Window{a23b242 u0 org.cemetery.app/org.cemetery.app.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@3d0a0af, mPriority=0, mIsAnimationCallback=false}
+11-16 02:28:41.133  2982  2998 I EGL_emulation: Opening libGLESv1_CM_emulation.so
+11-16 02:28:41.133  2982  2998 I EGL_emulation: Opening libGLESv2_emulation.so
+11-16 02:28:41.148  2982  2998 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+11-16 02:28:41.148  2982  2998 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+11-16 02:28:41.376   149   149 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+--------- beginning of kernel
+11-16 02:28:41.493     0     0 I servicemanager: Caller(pid=2982,uid=10148,sid=u:r:untrusted_app:s0:c148,c256,c512,c768) Could not find android.hardware.graphics.allocator.IAllocator/default in the VINTF manifest. No alternative instances declared in VINTF.
+11-16 02:28:41.376  2982  2998 I Gralloc4: mapper 4.x is not supported
+11-16 02:28:41.565   539   566 W ziparchive: Unable to open '/data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.dm': No such file or directory
+11-16 02:28:41.568   539   566 I ActivityTaskManager: Displayed org.cemetery.app/.MainActivity for user 0: +2s221ms
+11-16 02:28:41.571  2982  2982 I Choreographer: Skipped 43 frames!  The application may be doing too much work on its main thread.
+11-16 02:28:41.672   539   649 W InputDispatcher: Not sending touch gesture to 5faca01 ActivityRecordInputSink org.cemetery.app/.MainActivity because it has config NO_INPUT_CHANNEL
+11-16 02:28:41.672   539   649 I InputDispatcher: Dropping event because no targets were found: MotionEvent(deviceId=-1, eventTime=1216519000000, source=TOUCHSCREEN, displayId=0, action=DOWN, actionButton=0x00000000, flags=0x00000000, metaState=0x00000000, buttonState=0x00000000, classification=NONE, edgeFlags=0x00000000, xPrecision=1.0, yPrecision=1.0, xCursorPosition=nan, yCursorPosition=nan, pointers=[0: (810.0, 2070.0)]), policyFlags=0x6b000000
+11-16 02:28:41.672   539  1533 W InputManager: Input event injection from pid 3014 failed.
+11-16 02:28:41.673   539  1533 W InputManager: Input event injection from pid 3014 failed.
+11-16 02:28:41.688  2982  3006 I HWUI    : Davey! duration=768ms; Flags=1, FrameTimelineVsyncId=177157, IntendedVsync=1215637271070, Vsync=1215637271070, InputEventId=0, HandleInputStart=1215642264681, AnimationStart=1215642268524, PerformTraversalsStart=1215642270427, DrawStart=1216293140436, FrameDeadline=1215653937736, FrameInterval=1215642244994, FrameStartTime=16666666, SyncQueued=1216305476461, SyncStart=1216309665376, IssueDrawCommandsStart=1216311694107, SwapBuffers=1216357168738, FrameCompleted=1216410334609, DequeueBufferDuration=2985, QueueBufferDuration=290914, GpuCompleted=1216410334609, SwapBuffersCompleted=1216363693533, DisplayPresentTime=16960825855817, CommandSubmissionCompleted=1216357168738, 
+11-16 02:28:41.904   539   629 I UsageStatsService: User[0] Flushing usage stats to disk
+11-16 02:28:42.368   351   396 I netd    : tetherGetStats() -> {[]} <29.61ms>
+11-16 02:28:42.509  3017  3017 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-16 02:28:42.534  3017  3017 I AndroidRuntime: Using default boot image
+11-16 02:28:42.539  3017  3017 I AndroidRuntime: Leaving lock profiling enabled
+11-16 02:28:42.541  3017  3017 I app_process: Core platform API reporting enabled, enforcing=false
+11-16 02:28:42.552  3017  3017 I app_process: Using CollectorTypeCMC GC.
+11-16 02:28:42.588   862   974 I Choreographer: Skipped 32 frames!  The application may be doing too much work on its main thread.
+11-16 02:28:42.588   862   974 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda11@c4b7e34
+11-16 02:28:42.588   539  1533 D CoreBackPreview: Window{a45b839 u0 Splash Screen org.cemetery.app EXITING}: Setting back callback null
+11-16 02:28:42.590   539  1777 W InputManager-JNI: Input channel object 'a45b839 Splash Screen org.cemetery.app (client)' was disposed without first being removed with the input manager!
+11-16 02:28:42.606  1156  1156 D BaseDepthController: setSurface:
+11-16 02:28:42.606  1156  1156 D BaseDepthController: 	mWaitingOnSurfaceValidity: false
+11-16 02:28:42.606  1156  1156 D BaseDepthController: 	mSurface: null
+11-16 02:28:42.606  1156  1156 D BaseDepthController: mSurface is null and mCurrentBlur is: 0
+11-16 02:28:42.606  1156  1156 D StateManager: goToState - fromState: Normal, toState: Normal, partial trace:
+11-16 02:28:42.606  1156  1156 D StateManager: 	at com.android.launcher3.statemanager.StateManager.moveToRestState(StateManager.java:453)
+11-16 02:28:42.606  1156  1156 D StateManager: 	at com.android.launcher3.statemanager.StateManager.moveToRestState(StateManager.java:444)
+11-16 02:28:42.606  1156  1156 D StateManager: 	at com.android.launcher3.statemanager.StatefulActivity.onStop(StatefulActivity.java:119)
+11-16 02:28:42.607  1156  1156 D StatsLog: LAUNCHER_ONSTOP
+11-16 02:28:42.608   539  1098 I AppWidgetServiceImpl: setAppWidgetHidden() 0
+11-16 02:28:42.643   862   974 W FrameTracker: Missed App frame:UNKNOWN: 24, 177244, 0, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+11-16 02:28:42.643   862   974 W FrameTracker: Missed SF frame:UNKNOWN: 24, 177244, 0, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+11-16 02:28:42.643   862   974 W FrameTracker: Missing HWUI jank callback for vsyncId: 177244, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+11-16 02:28:42.643   862   974 W FrameTracker: Missed App frame:UNKNOWN: 88, 177259, 720712762, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+11-16 02:28:42.643   862   974 W FrameTracker: Missed SF frame:UNKNOWN: 88, 177259, 720712762, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+11-16 02:28:42.643   862   949 V PerfettoTrigger: Not triggering com.android.telemetry.interaction-jank-monitor-39 - not enough time since last trigger
+11-16 02:28:42.710  2982  2982 W rg.cemetery.app: Method boolean androidx.compose.runtime.snapshots.SnapshotStateList.conditionalUpdate(boolean, kotlin.jvm.functions.Function1) failed lock verification and will run slower.
+11-16 02:28:42.710  2982  2982 W rg.cemetery.app: Common causes for lock verification issues are non-optimized dex code
+11-16 02:28:42.710  2982  2982 W rg.cemetery.app: and incorrect proguard optimizations.
+11-16 02:28:42.714  2982  2982 W rg.cemetery.app: Method boolean androidx.compose.runtime.snapshots.SnapshotStateList.conditionalUpdate$default(androidx.compose.runtime.snapshots.SnapshotStateList, boolean, kotlin.jvm.functions.Function1, int, java.lang.Object) failed lock verification and will run slower.
+11-16 02:28:42.715  2982  2982 W rg.cemetery.app: Method java.lang.Object androidx.compose.runtime.snapshots.SnapshotStateList.mutate(kotlin.jvm.functions.Function1) failed lock verification and will run slower.
+11-16 02:28:42.715  2982  2982 W rg.cemetery.app: Method void androidx.compose.runtime.snapshots.SnapshotStateList.update(boolean, kotlin.jvm.functions.Function1) failed lock verification and will run slower.
+11-16 02:28:42.715  2982  2982 W rg.cemetery.app: Method void androidx.compose.runtime.snapshots.SnapshotStateList.update$default(androidx.compose.runtime.snapshots.SnapshotStateList, boolean, kotlin.jvm.functions.Function1, int, java.lang.Object) failed lock verification and will run slower.
+11-16 02:28:42.720  3017  3017 D nativeloader: InitDefaultPublicLibraries for_preload=1: libandroid.so:libaaudio.so:libamidi.so:libbinder_ndk.so:libc.so:libcamera2ndk.so:libdl.so:libEGL.so:libGLESv1_CM.so:libGLESv2.so:libGLESv3.so:libicu.so:libicui18n.so:libicuuc.so:libjnigraphics.so:liblog.so:libmediandk.so:libm.so:libnativehelper.so:libnativewindow.so:libOpenMAXAL.so:libOpenSLES.so:libRS.so:libstdc++.so:libsync.so:libvulkan.so:libwebviewchromium_plat_support.so:libz.so
+11-16 02:28:42.736  3017  3017 D nativeloader: Load libicu_jni.so using APEX ns com_android_art for caller /apex/com.android.art/javalib/core-oj.jar: ok
+11-16 02:28:42.738  3017  3017 D app_process: u_setTimeZoneFilesDirectory("/apex/com.android.tzdata/etc/tz/versioned/8/icu") succeeded. 
+11-16 02:28:42.738  3017  3017 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt75l.dat
+11-16 02:28:42.739  3017  3017 D nativeloader: Load libjavacore.so using APEX ns com_android_art for caller /apex/com.android.art/javalib/core-oj.jar: ok
+11-16 02:28:42.740  3017  3017 D nativeloader: Load libopenjdk.so using APEX ns com_android_art for caller /apex/com.android.art/javalib/core-oj.jar: ok
+11-16 02:28:42.742  3017  3017 W app_process: Unexpected CPU variant for x86: x86_64.
+11-16 02:28:42.742  3017  3017 W app_process: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, default
+11-16 02:28:42.744  3017  3017 W app_process: ClassLoaderContext shared library size mismatch. Expected=2, found=0 (PCL[]{PCL[/system/framework/android.test.base.jar*724373495]#PCL[/system/framework/android.test.mock.jar*1452759902]} | PCL[])
+11-16 02:28:42.752  3017  3017 W app_process: ClassLoaderContext classpath size mismatch. expected=0, found=1 (PCL[]{PCL[/system/framework/android.test.runner.jar*2496447986]#PCL[/system/framework/android.test.base.jar*724373495]} | PCL[/system/framework/android.test.runner.jar*2496447986])
+11-16 02:28:42.822  3017  3017 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+11-16 02:28:42.822  3017  3017 D AndroidRuntime: Calling main entry com.android.commands.uiautomator.Launcher
+11-16 02:28:42.831  3017  3017 D UiAutomationConnection: Created on user UserHandle{0}
+11-16 02:28:42.831  3017  3017 I UiAutomation: Initialized for user 0 on display 0
+11-16 02:28:42.831  3017  3017 W UiAutomation: Created with deprecatead constructor, assumes DEFAULT_DISPLAY
+11-16 02:28:42.832   539  1098 D AccessibilityManagerService: changeCurrentUserForTestAutomationIfNeededLocked(0): ignoring because device doesn't support visible background users
+11-16 02:28:42.832   539  1098 I UiAutomationManager: Registering UiTestAutomationService (id=com.android.server.accessibility/UiAutomation, flags=0x0) when called by user 0
+11-16 02:28:42.834   539  1098 W MagnificationConnectionManager: requestConnection duplicated request: connect=false, mConnectionState=DISCONNECTED
+11-16 02:28:42.837   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:28:42.837   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:28:42.838   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:28:42.838   539   539 D BatterySaverPolicy: accessibility changed to true, updating policy.
+11-16 02:28:42.839  3017  3032 V UiAutomation: Init UiAutomation@b94a3f9[id=7, displayId=0, flags=0]
+11-16 02:28:42.845   539  1777 W MagnificationConnectionManager: requestConnection duplicated request: connect=false, mConnectionState=DISCONNECTED
+11-16 02:28:42.845   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:28:42.848   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:28:42.875   872  1100 D AccessibilitySourceService: enabled a11y services count 0
+11-16 02:28:42.875   872  1100 D AccessibilitySourceService: a11y source sending 0 issue to sc
+11-16 02:28:42.876   539  1533 D SafetySourceDataValidat: No cert check requested for package com.android.permissioncontroller
+11-16 02:28:42.894   539  1664 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+11-16 02:28:43.068  2982  2982 I Choreographer: Skipped 87 frames!  The application may be doing too much work on its main thread.
+11-16 02:28:43.154  2982  3006 I HWUI    : Davey! duration=1577ms; Flags=0, FrameTimelineVsyncId=177251, IntendedVsync=1216420604372, Vsync=1216437271038, InputEventId=0, HandleInputStart=1216445638627, AnimationStart=1216445639635, PerformTraversalsStart=1216549553448, DrawStart=1217883190774, FrameDeadline=1216437271038, FrameInterval=1216445629960, FrameStartTime=16666666, SyncQueued=1217901582373, SyncStart=1217901615656, IssueDrawCommandsStart=1217901686024, SwapBuffers=1217927767348, FrameCompleted=1217998358882, DequeueBufferDuration=12593, QueueBufferDuration=256310, GpuCompleted=1217998358882, SwapBuffersCompleted=1217934816506, DisplayPresentTime=20611548058296, CommandSubmissionCompleted=1217927767348, 
+11-16 02:28:43.166   539   657 I ImeTracker: org.cemetery.app:862bc5c5: onRequestHide at ORIGIN_SERVER reason HIDE_UNSPECIFIED_WINDOW fromUser false
+11-16 02:28:43.166   539   657 I ImeTracker: org.cemetery.app:862bc5c5: onCancelled at PHASE_SERVER_SHOULD_HIDE
+11-16 02:28:43.423  2982  2987 I rg.cemetery.app: Compiler allocated 5174KB to compile void android.view.ViewRootImpl.performTraversals()
+11-16 02:28:43.456  2982  3006 I HWUI    : Davey! duration=1712ms; Flags=0, FrameTimelineVsyncId=177274, IntendedVsync=1216453937704, Vsync=1217903937646, InputEventId=0, HandleInputStart=1217917795497, AnimationStart=1217917798163, PerformTraversalsStart=1217933466033, DrawStart=1218002450622, FrameDeadline=1218020604308, FrameInterval=1217916191925, FrameStartTime=16666666, SyncQueued=1218003128245, SyncStart=1218003158319, IssueDrawCommandsStart=1218003213611, SwapBuffers=1218117339850, FrameCompleted=1218166464072, DequeueBufferDuration=4213, QueueBufferDuration=45473632, GpuCompleted=1218166395717, SwapBuffersCompleted=1218166464072, DisplayPresentTime=26959509723264, CommandSubmissionCompleted=1218117339850, 
+11-16 02:28:44.206  1334  1522 W MediaProvider: isAppCloneUserPair for user 0: false
+11-16 02:28:44.256  2982  2998 D EGL_emulation: app_time_stats: avg=672.61ms min=87.67ms max=1571.11ms count=4
+11-16 02:28:44.314  3017  3017 W AccessibilityNodeInfoDumper: Fetch time: 114ms
+11-16 02:28:44.315   539  1533 W MagnificationConnectionManager: requestConnection duplicated request: connect=false, mConnectionState=DISCONNECTED
+11-16 02:28:44.315   539  1533 D AccessibilityManagerService: restoreCurrentUserForTestAutomationIfNeededLocked(): ignoring because device doesn't support visible background users
+11-16 02:28:44.316   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:28:44.316   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:28:44.319  3017  3017 D AndroidRuntime: Shutting down VM
+11-16 02:28:44.320   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:28:44.320   539   539 D BatterySaverPolicy: accessibility changed to false, updating policy.
+11-16 02:28:45.414     0     0 I logd    : logdr: UID=2000 GID=2000 PID=3040 n tail=0 logMask=99 pid=0 start=0ns deadline=0ns
+11-16 02:28:45.692  2982  3043 D ProfileInstaller: Installing profile for org.cemetery.app
+11-16 02:28:49.178   351   396 I netd    : tetherGetStats() -> {[]} <1.46ms>
+11-16 02:28:51.129   862   862 D ZenModeController: Added callback class com.android.systemui.qs.tiles.DndTile$3
+11-16 02:28:51.129   862   862 D ZenModeController: Removed callback class com.android.systemui.qs.tiles.DndTile$3
+11-16 02:28:52.781   862   988 I QuickAccessWalletTile: QAW service is unavailable, recreating the wallet client.
+11-16 02:28:52.782   862   988 D ControlsListingControllerImpl: Subscribing callback, service count: 0
+11-16 02:28:52.782   862   988 D ControlsListingControllerImpl: Unsubscribing callback
+11-16 02:28:53.888   862   862 D ZenModeController: Added callback class com.android.systemui.qs.tiles.DndTile$3
+11-16 02:28:53.889   862   862 D ZenModeController: Removed callback class com.android.systemui.qs.tiles.DndTile$3
+11-16 02:28:58.117  2982  2998 D EGL_emulation: app_time_stats: avg=13861.03ms min=13861.03ms max=13861.03ms count=1
+11-16 02:28:59.218   539   637 D ActivityManager: freezing 872 com.android.permissioncontroller
+11-16 02:28:59.220   539   781 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+11-16 02:28:59.221   539   781 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+11-16 02:28:59.221   539   781 D InetDiagMessage: Destroyed live tcp sockets for uids={10144} in 2ms
+11-16 02:29:00.036   862   997 D EGL_emulation: app_time_stats: avg=5052.64ms min=157.52ms max=19637.04ms count=4
+11-16 02:29:05.095  2982  2982 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+11-16 02:29:05.095  2982  2982 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+11-16 02:29:05.106  2982  2998 D EGL_emulation: app_time_stats: avg=6988.49ms min=6988.49ms max=6988.49ms count=1
+11-16 02:29:05.153  3049  3049 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-16 02:29:05.157  3049  3049 I AndroidRuntime: Using default boot image
+11-16 02:29:05.157  3049  3049 I AndroidRuntime: Leaving lock profiling enabled
+11-16 02:29:05.159  3049  3049 I app_process: Core platform API reporting enabled, enforcing=false
+11-16 02:29:05.160  3049  3049 I app_process: Using CollectorTypeCMC GC.
+11-16 02:29:05.168  2982  2982 D nativeloader: Load /data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.apk!/lib/x86_64/libfilament-jni.so using ns clns-7 from class loader (caller=/data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.apk!classes10.dex): ok
+11-16 02:29:05.170  2982  2982 D nativeloader: Load /data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.apk!/lib/x86_64/libgltfio-jni.so using ns clns-7 from class loader (caller=/data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.apk!classes10.dex): ok
+11-16 02:29:05.171  2982  2982 D nativeloader: Load /data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.apk!/lib/x86_64/libfilament-utils-jni.so using ns clns-7 from class loader (caller=/data/app/~~0mt3nv3lWf8SCG_Mha2LZg==/org.cemetery.app-47rurFcUOcoXvf4WyqKAMw==/base.apk!classes10.dex): ok
+11-16 02:29:05.236  3049  3049 D nativeloader: InitDefaultPublicLibraries for_preload=1: libandroid.so:libaaudio.so:libamidi.so:libbinder_ndk.so:libc.so:libcamera2ndk.so:libdl.so:libEGL.so:libGLESv1_CM.so:libGLESv2.so:libGLESv3.so:libicu.so:libicui18n.so:libicuuc.so:libjnigraphics.so:liblog.so:libmediandk.so:libm.so:libnativehelper.so:libnativewindow.so:libOpenMAXAL.so:libOpenSLES.so:libRS.so:libstdc++.so:libsync.so:libvulkan.so:libwebviewchromium_plat_support.so:libz.so
+11-16 02:29:05.246  3049  3049 D nativeloader: Load libicu_jni.so using APEX ns com_android_art for caller /apex/com.android.art/javalib/core-oj.jar: ok
+11-16 02:29:05.246  3049  3049 D app_process: u_setTimeZoneFilesDirectory("/apex/com.android.tzdata/etc/tz/versioned/8/icu") succeeded. 
+11-16 02:29:05.246  3049  3049 D app_process: I18n APEX ICU file found: /apex/com.android.i18n/etc/icu/icudt75l.dat
+11-16 02:29:05.247  3049  3049 D nativeloader: Load libjavacore.so using APEX ns com_android_art for caller /apex/com.android.art/javalib/core-oj.jar: ok
+11-16 02:29:05.248  3049  3049 D nativeloader: Load libopenjdk.so using APEX ns com_android_art for caller /apex/com.android.art/javalib/core-oj.jar: ok
+11-16 02:29:05.249  3049  3049 W app_process: Unexpected CPU variant for x86: x86_64.
+11-16 02:29:05.249  3049  3049 W app_process: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, default
+11-16 02:29:05.251  3049  3049 W app_process: ClassLoaderContext shared library size mismatch. Expected=2, found=0 (PCL[]{PCL[/system/framework/android.test.base.jar*724373495]#PCL[/system/framework/android.test.mock.jar*1452759902]} | PCL[])
+11-16 02:29:05.251  3049  3049 W app_process: ClassLoaderContext classpath size mismatch. expected=0, found=1 (PCL[]{PCL[/system/framework/android.test.runner.jar*2496447986]#PCL[/system/framework/android.test.base.jar*724373495]} | PCL[/system/framework/android.test.runner.jar*2496447986])
+11-16 02:29:05.269  3049  3049 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+11-16 02:29:05.269  3049  3049 D AndroidRuntime: Calling main entry com.android.commands.uiautomator.Launcher
+11-16 02:29:05.276  3049  3049 D UiAutomationConnection: Created on user UserHandle{0}
+11-16 02:29:05.276  3049  3049 I UiAutomation: Initialized for user 0 on display 0
+11-16 02:29:05.276  3049  3049 W UiAutomation: Created with deprecatead constructor, assumes DEFAULT_DISPLAY
+11-16 02:29:05.277   539  1777 D AccessibilityManagerService: changeCurrentUserForTestAutomationIfNeededLocked(0): ignoring because device doesn't support visible background users
+11-16 02:29:05.277   539  1777 I UiAutomationManager: Registering UiTestAutomationService (id=com.android.server.accessibility/UiAutomation, flags=0x0) when called by user 0
+11-16 02:29:05.278   539  1777 W MagnificationConnectionManager: requestConnection duplicated request: connect=false, mConnectionState=DISCONNECTED
+11-16 02:29:05.279   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:05.279   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:05.279   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:05.279   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:05.280  3049  3061 V UiAutomation: Init UiAutomation@e7075c8[id=8, displayId=0, flags=0]
+11-16 02:29:05.280   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:05.280   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:05.283   539  1777 W MagnificationConnectionManager: requestConnection duplicated request: connect=false, mConnectionState=DISCONNECTED
+11-16 02:29:05.283   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:05.283   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:05.284   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:05.284   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:05.287   539   539 D BatterySaverPolicy: accessibility changed to true, updating policy.
+11-16 02:29:05.324  2982  2982 I Filament: FEngine (64 bits) created at 0x76939b089730 (threading is enabled)
+11-16 02:29:05.359  2982  3063 D Filament: Using ASurfaceTexture
+11-16 02:29:05.360  2982  3063 I Filament: FEngine resolved backend: OpenGL
+11-16 02:29:05.515  2982  3063 V Filament: [Google (Google Inc. (Google))], [Android Emulator OpenGL ES Translator (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0))], [OpenGL ES 3.1 (OpenGL ES 3.1.0 (ANGLE 2.1.17841 git hash: 5fa2e61da947))], [OpenGL ES GLSL ES 3.10]
+11-16 02:29:05.791  2982  3063 V Filament: Feature level: 1
+11-16 02:29:05.791  2982  3063 V Filament: Active workarounds: 
+11-16 02:29:05.799  2982  2982 I Filament: Backend feature level: 1
+11-16 02:29:05.799  2982  2982 I Filament: FEngine feature level: 1
+11-16 02:29:06.155  2982  2998 D EGL_emulation: app_time_stats: avg=66.23ms min=44.12ms max=105.85ms count=11
+11-16 02:29:06.286   539  1533 W MagnificationConnectionManager: requestConnection duplicated request: connect=false, mConnectionState=DISCONNECTED
+11-16 02:29:06.286   539  1533 D AccessibilityManagerService: restoreCurrentUserForTestAutomationIfNeededLocked(): ignoring because device doesn't support visible background users
+11-16 02:29:06.286   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:06.286   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:06.286   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:06.286   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:06.287   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:06.287  3049  3049 D AndroidRuntime: Shutting down VM
+11-16 02:29:06.287   539   539 W IPCThreadState: Sending oneway calls to frozen process.
+11-16 02:29:06.287   539   539 D BatterySaverPolicy: accessibility changed to false, updating policy.
+11-16 02:29:06.789  2982  2982 I Choreographer: Skipped 100 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:06.995  2982  2992 I HWUI    : Davey! duration=1802ms; Flags=0, FrameTimelineVsyncId=177743, IntendedVsync=1239920603432, Vsync=1239953936764, InputEventId=0, HandleInputStart=1239956918943, AnimationStart=1239956919808, PerformTraversalsStart=1241531952691, DrawStart=1241532643769, FrameDeadline=1241653936696, FrameInterval=1239956911942, FrameStartTime=16666666, SyncQueued=1241553737062, SyncStart=1241634573924, IssueDrawCommandsStart=1241634842960, SwapBuffers=1241694004310, FrameCompleted=1241804039012, DequeueBufferDuration=40469564, QueueBufferDuration=183251, GpuCompleted=1241804039012, SwapBuffersCompleted=1241735099896, DisplayPresentTime=0, CommandSubmissionCompleted=1241694004310, 
+11-16 02:29:07.166  2982  2998 D EGL_emulation: app_time_stats: avg=80.04ms min=33.80ms max=134.10ms count=10
+11-16 02:29:07.224  2982  2992 I HWUI    : Davey! duration=2040ms; Flags=0, FrameTimelineVsyncId=177751, IntendedVsync=1239970603430, Vsync=1241637270030, InputEventId=0, HandleInputStart=1241637756456, AnimationStart=1241637757163, PerformTraversalsStart=1241647297568, DrawStart=1241839781104, FrameDeadline=1241937270018, FrameInterval=1241637576899, FrameStartTime=16666666, SyncQueued=1241841744595, SyncStart=1241843818871, IssueDrawCommandsStart=1241843964979, SwapBuffers=1241973908988, FrameCompleted=1242012709909, DequeueBufferDuration=2464, QueueBufferDuration=213187, GpuCompleted=1242012709909, SwapBuffersCompleted=1241977524842, DisplayPresentTime=0, CommandSubmissionCompleted=1241973908988, 
+11-16 02:29:07.266  3069  3069 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+11-16 02:29:07.266  3069  3069 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+11-16 02:29:07.346   149   149 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+11-16 02:29:07.346  3069  3070 I Gralloc4: mapper 4.x is not supported
+11-16 02:29:07.470     0     0 I servicemanager: Caller(pid=3069,uid=2000,sid=u:r:shell:s0) Could not find android.hardware.graphics.allocator.IAllocator/default in the VINTF manifest. No alternative instances declared in VINTF.
+11-16 02:29:07.914     0     0 I logd    : logdr: UID=2000 GID=2000 PID=3071 n tail=0 logMask=99 pid=0 start=0ns deadline=0ns
+11-16 02:29:09.931  2982  2982 I Choreographer: Skipped 31 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:11.249  2982  3063 D EGL_emulation: app_time_stats: avg=440.83ms min=7.25ms max=1087.20ms count=3
+11-16 02:29:11.799  2982  2982 I Choreographer: Skipped 31 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:12.524  2982  3063 D EGL_emulation: app_time_stats: avg=637.38ms min=629.30ms max=645.45ms count=2
+11-16 02:29:14.079   862   997 D EGL_emulation: app_time_stats: avg=14043.38ms min=14043.38ms max=14043.38ms count=1
+11-16 02:29:14.171   862  1139 I HWUI    : Davey! duration=1357ms; Flags=0, FrameTimelineVsyncId=179572, IntendedVsync=1247653936456, Vsync=1247653936456, InputEventId=0, HandleInputStart=1247657488975, AnimationStart=1247657489665, PerformTraversalsStart=1247657490002, DrawStart=1247657557457, FrameDeadline=1247670603122, FrameInterval=1247657486926, FrameStartTime=16666666, SyncQueued=1247657658482, SyncStart=1247658258392, IssueDrawCommandsStart=1247658317594, SwapBuffers=1248924804635, FrameCompleted=1249012458240, DequeueBufferDuration=8165, QueueBufferDuration=2340275, GpuCompleted=1249012458240, SwapBuffersCompleted=1248927854524, DisplayPresentTime=0, CommandSubmissionCompleted=1248924804635, 
+11-16 02:29:14.249  2982  3063 D EGL_emulation: app_time_stats: avg=862.59ms min=790.86ms max=934.32ms count=2
+11-16 02:29:15.464  2982  3063 D EGL_emulation: app_time_stats: avg=607.58ms min=594.19ms max=620.98ms count=2
+11-16 02:29:16.784  2982  3063 D EGL_emulation: app_time_stats: avg=660.09ms min=596.54ms max=723.64ms count=2
+11-16 02:29:18.165  2982  3063 D EGL_emulation: app_time_stats: avg=690.10ms min=688.89ms max=691.30ms count=2
+11-16 02:29:19.069   539   637 D ActivityManager: freezing 1467 com.android.keychain
+11-16 02:29:19.069   539   637 D ActivityManager: freezing 1782 com.android.localtransport
+11-16 02:29:19.070   539   637 D ActivityManager: freezing 1019 com.android.settings
+11-16 02:29:19.431  2982  2982 I Choreographer: Skipped 32 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:19.510  2982  3063 D EGL_emulation: app_time_stats: avg=672.89ms min=639.06ms max=706.72ms count=2
+11-16 02:29:20.854  2982  3063 D EGL_emulation: app_time_stats: avg=671.86ms min=589.95ms max=753.77ms count=2
+11-16 02:29:22.272  2982  2982 I Choreographer: Skipped 30 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:22.350  2982  3063 D EGL_emulation: app_time_stats: avg=747.57ms min=613.43ms max=881.71ms count=2
+11-16 02:29:22.873  2982  2982 I Choreographer: Skipped 30 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:23.541  2982  3063 D EGL_emulation: app_time_stats: avg=595.72ms min=588.10ms max=603.35ms count=2
+11-16 02:29:24.104  2982  2982 I Choreographer: Skipped 31 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:24.798  2982  3063 D EGL_emulation: app_time_stats: avg=628.29ms min=619.75ms max=636.83ms count=2
+11-16 02:29:25.883  2982  3063 D EGL_emulation: app_time_stats: avg=542.05ms min=491.42ms max=592.68ms count=2
+11-16 02:29:27.069  2982  2982 I Choreographer: Skipped 36 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:27.072  2982  3063 D EGL_emulation: app_time_stats: avg=312.89ms min=89.27ms max=536.50ms count=2
+11-16 02:29:27.635   919  1938 D ApfFilter: (wlan0): Ignoring RA RA fe80::2 -> ff02::1 1800s fec0::/64 86400s/14400s  which matches RA fe80::2 -> ff02::1 1800s fec0::/64 86400s/14400s 
+11-16 02:29:28.411  2982  2982 I Choreographer: Skipped 32 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:28.489  2982  3063 D EGL_emulation: app_time_stats: avg=401.75ms min=160.88ms max=642.62ms count=2
+11-16 02:29:29.741  2982  3063 D EGL_emulation: app_time_stats: avg=626.28ms min=562.96ms max=689.61ms count=2
+11-16 02:29:30.542  2982  2982 I Choreographer: Skipped 47 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:31.227  2982  3063 D EGL_emulation: app_time_stats: avg=742.82ms min=604.82ms max=880.82ms count=2
+11-16 02:29:32.310  2982  3063 D EGL_emulation: app_time_stats: avg=541.38ms min=489.78ms max=592.98ms count=2
+11-16 02:29:32.928  2982  2982 I Choreographer: Skipped 36 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:33.476  2982  3063 D EGL_emulation: app_time_stats: avg=581.39ms min=473.37ms max=689.42ms count=2
+11-16 02:29:34.062  2982  2982 I Choreographer: Skipped 33 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:34.745  2982  3063 D EGL_emulation: app_time_stats: avg=634.36ms min=598.76ms max=669.96ms count=2
+11-16 02:29:35.314  2982  2982 I Choreographer: Skipped 32 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:35.904  2982  3063 D EGL_emulation: app_time_stats: avg=579.64ms min=517.06ms max=642.21ms count=2
+11-16 02:29:36.185     0     0 W healthd : battery l=100 v=5000 t=25.0 h=2 st=2 c=900000 fc=3000000 cc=10 chg=a
+11-16 02:29:37.032  2982  3063 D EGL_emulation: app_time_stats: avg=563.97ms min=559.03ms max=568.92ms count=2
+11-16 02:29:37.691  2982  2982 I Choreographer: Skipped 38 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:38.367  2982  3063 D EGL_emulation: app_time_stats: avg=667.30ms min=603.16ms max=731.43ms count=2
+11-16 02:29:38.900  2982  2982 I Choreographer: Skipped 30 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:39.517  2982  2982 I Choreographer: Skipped 30 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:39.608  2982  3063 D EGL_emulation: app_time_stats: avg=620.66ms min=614.52ms max=626.79ms count=2
+11-16 02:29:39.885  3076  3076 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+11-16 02:29:39.894  3076  3076 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+11-16 02:29:40.235  2982  2982 I Choreographer: Skipped 36 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:40.324   149   149 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+11-16 02:29:40.324  3076  3077 I Gralloc4: mapper 4.x is not supported
+11-16 02:29:40.458     0     0 I servicemanager: Caller(pid=3076,uid=2000,sid=u:r:shell:s0) Could not find android.hardware.graphics.allocator.IAllocator/default in the VINTF manifest. No alternative instances declared in VINTF.
+11-16 02:29:40.906  2982  3063 D EGL_emulation: app_time_stats: avg=648.90ms min=547.68ms max=750.12ms count=2
+11-16 02:29:41.508  2982  2982 I Choreographer: Skipped 35 frames!  The application may be doing too much work on its main thread.
+11-16 02:29:42.266  2982  3063 D EGL_emulation: app_time_stats: avg=126.58ms min=92.02ms max=161.15ms count=2
+11-16 02:29:43.066   862   997 D EGL_emulation: app_time_stats: avg=28985.98ms min=28985.98ms max=28985.98ms count=1

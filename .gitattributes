@@ -1,0 +1,24 @@
+# Normalize source/document text while retaining native Windows wrapper endings.
+* text=auto
+*.kt text eol=lf
+*.kts text eol=lf
+*.xml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.csv text eol=lf
+*.sh text eol=lf
+gradlew text eol=lf
+gradlew.bat text eol=crlf
+
+# Original runtime and verification assets must retain their exact bytes.
+*.jar binary
+*.ttf binary
+*.filamat binary
+*.png binary
+*.jpg binary
+*.mp4 binary
+
+# Retain upstream notice and historical tool-output whitespace as supplied.
+app/src/main/assets/fonts/Nunito-OFL.txt -whitespace
+docs/verification/** -whitespace

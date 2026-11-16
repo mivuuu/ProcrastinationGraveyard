@@ -1,0 +1,12 @@
+
+org.cemetery.app.MigrationTest:...
+org.cemetery.app.RepositoryTest:.....
+org.cemetery.app.UiSmokeTest:..
+org.cemetery.app.DeniedReminderTest:.
+org.cemetery.app.ReminderTest:.
+
+Time: 157.595
+
+OK (12 tests)
+
+

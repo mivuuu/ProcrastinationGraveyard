@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="org.cemetery.app.UiSmokeTest" tests="2" failures="0" errors="0" skipped="0" time="135.634" timestamp="2026-11-16T03:22:00" hostname="localhost">
+  <properties>
+    <property name="device" value="emulator-5560 - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="largeTextAndLandscapeKeepPresentationVisible" classname="org.cemetery.app.UiSmokeTest" time="35.982" />
+  <testcase name="realScreensAndPersistedSettings" classname="org.cemetery.app.UiSmokeTest" time="96.601" />
+</testsuite>

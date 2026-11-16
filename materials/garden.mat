@@ -1,0 +1,14 @@
+material {
+    name : CemeteryCartoonStone,
+    shadingModel : unlit,
+    parameters : [ { type : float4, name : baseColor } ],
+    requires : [ position, tangents ],
+    culling : none
+}
+fragment {
+    void material(inout MaterialInputs material) {
+        prepareMaterial(material);
+        float light = 0.82 + 0.18 * max(dot(getWorldNormalVector(), normalize(vec3(-0.35, 0.7, 1.0))), 0.0);
+        material.baseColor = vec4(materialParams.baseColor.rgb * light, materialParams.baseColor.a);
+    }
+}

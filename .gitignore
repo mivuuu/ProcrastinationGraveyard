@@ -1,0 +1,57 @@
+# Gradle / Kotlin caches and generated build products
+.gradle/
+.kotlin/
+**/build/
+**/out/
+*.apk
+*.aab
+*.apks
+*.dex
+*.class
+*.hprof
+*.log
+
+# Android Studio / IntelliJ and local machine configuration
+.idea/
+*.iml
+local.properties
+*.local.properties
+local.defaults.properties
+captures/
+.externalNativeBuild/
+.cxx/
+.tools/
+.DS_Store
+Thumbs.db
+*~
+*.swp
+
+# Signing material and private release configuration
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+keystore.properties
+signing.properties
+signing-config.properties
+
+# Credentials, local environment and agent/cloud configuration
+.env
+.env.*
+!.env.example
+.credentials
+credentials/
+secrets/
+*credentials*.json
+*service-account*.json
+*service_account*.json
+.netrc
+.npmrc
+.pypirc
+.aws/
+.ssh/
+.config/
+.codex/
+.agents/

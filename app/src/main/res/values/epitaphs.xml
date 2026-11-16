@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  <string-array name="epitaph_neutral">
+    <item>Here rests {task_title}. There is still a way forward.</item>
+    <item>A deadline passed. The possibility remains.</item>
+    <item>This promise is waiting for a quieter morning.</item>
+    <item>Unfinished is a moment, not a name.</item>
+    <item>Some plans need a second beginning.</item>
+    <item>Time moved on; this page stayed open.</item>
+    <item>A small stone marks an unfinished thought.</item>
+    <item>The work paused here. You may return.</item>
+    <item>A place for what has not happened yet.</item>
+    <item>This task outlived its first date.</item>
+    <item>A missed hour does not erase a good intention.</item>
+    <item>The calendar closed a day, not a door.</item>
+    <item>A little silence between intention and action.</item>
+    <item>A record of a promise, kept gently.</item>
+    <item>This stone leaves room for a flower.</item>
+    <item>The next step can be smaller.</item>
+    <item>Here is something worth reconsidering.</item>
+    <item>What waited can still be welcomed back.</item>
+    <item>No verdict, only a date in the past.</item>
+    <item>This quiet marker remembers your intention.</item>
+    <item>A task at rest, with its story still open.</item>
+    <item>There is patience in a second attempt.</item>
+    <item>The path continues beyond this stone.</item>
+    <item>A pause can become a turning point.</item>
+  </string-array>
+  <string-array name="epitaph_philosophical">
+    <item>Time measures a promise; it cannot measure its meaning.</item>
+    <item>Between wanting and doing lies a human life.</item>
+    <item>Tomorrow is a direction, not a place to store today.</item>
+    <item>A plan is a map drawn before the weather arrives.</item>
+    <item>What we leave unfinished also teaches us what matters.</item>
+    <item>Every ending has a margin wide enough for a note.</item>
+    <item>Attention is the water that intentions need.</item>
+    <item>The future arrives without reading our lists.</item>
+    <item>A boundary crossed can become a place to begin.</item>
+    <item>The stone is still. The person who returns is changing.</item>
+    <item>Not every delay is empty; not every pause is rest.</item>
+    <item>The promise was made by someone still learning.</item>
+    <item>A clock can count hours, but not courage.</item>
+    <item>An unfinished act is a question with an open ending.</item>
+    <item>Let the past inform the next step, not command it.</item>
+    <item>We plant intentions in a world of changing seasons.</item>
+    <item>The distance to action is sometimes one kind decision.</item>
+    <item>A date belongs to the calendar. A choice belongs to you.</item>
+    <item>The quiet here is an invitation to listen.</item>
+    <item>What remains is not always what was lost.</item>
+    <item>Even a late flower belongs to its season.</item>
+    <item>Here rests certainty about how the day would unfold.</item>
+    <item>An honest revision can be an act of care.</item>
+    <item>A promise can change shape without losing its roots.</item>
+  </string-array>
+  <string-array name="epitaph_dark_humor">
+    <item>Here lies {task_title}. The calendar has declined to comment.</item>
+    <item>The deadline arrived alone. Awkward.</item>
+    <item>Postponed until further afterlife.</item>
+    <item>The reminder is now a memorial.</item>
+    <item>A very long moment of preparation.</item>
+    <item>This task took the phrase rest in peace literally.</item>
+    <item>Still loading. Eternity has good bandwidth.</item>
+    <item>The to-do list has acquired real estate.</item>
+    <item>Its last words were: after one more cup.</item>
+    <item>The deadline was firm. The plan was more flexible.</item>
+    <item>An ambitious resident of tomorrow.</item>
+    <item>The stone is at least on schedule.</item>
+    <item>A minute of silence for the estimated five minutes.</item>
+    <item>Buried under excellent intentions.</item>
+    <item>The progress bar found a comfortable spot.</item>
+    <item>The plan asked for an extension. Time did not reply.</item>
+    <item>A permanent address for a temporary delay.</item>
+    <item>The first draft is now a ghost draft.</item>
+    <item>Calendar invitation accepted by nobody.</item>
+    <item>The urgent task is enjoying the quiet.</item>
+    <item>Here rests a perfectly organized intention.</item>
+    <item>The deadline left. The tab stayed open.</item>
+    <item>A stone with surprisingly little paperwork.</item>
+    <item>There is no queue at the second-chance desk.</item>
+  </string-array>
+</resources>

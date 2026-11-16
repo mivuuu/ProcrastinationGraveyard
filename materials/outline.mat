@@ -1,0 +1,12 @@
+material {
+    name : CemeteryContour,
+    shadingModel : unlit,
+    parameters : [ { type : float4, name : baseColor } ],
+    culling : none
+}
+fragment {
+    void material(inout MaterialInputs material) {
+        prepareMaterial(material);
+        material.baseColor = materialParams.baseColor;
+    }
+}

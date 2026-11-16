@@ -1,0 +1,3 @@
+APK: /home/setare/Procrastination Graveyard/app/build/outputs/apk/debug/app-debug.apk
+Bytes: 55132368
+SHA-256: 6748b4514e8acc11bd3ecf42084b8c4bacdb855d4e4e06aa96d50c722563ab81

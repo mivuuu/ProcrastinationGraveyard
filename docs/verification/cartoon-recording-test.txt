@@ -1,0 +1,8 @@
+
+org.cemetery.app.UiSmokeTest:.
+
+Time: 36.876
+
+OK (1 test)
+
+

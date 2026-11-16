@@ -1,0 +1,8 @@
+Starting: Intent { cmp=org.cemetery.app/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: org.cemetery.app/.MainActivity
+TotalTime: 1781
+WaitTime: 1782
+Complete
+4352
