@@ -49,9 +49,10 @@ class CustomDesignTest {
     }
     @Test fun immutableMeshesMaterialsAndCameraRulesRemainUnchanged(){
         // Native selection, sky parenting and surface lifecycle are intentionally fixed in 0.1.1.
-        // Preserve the other original geometry, camera/gesture/animation rules and shader assets.
+        // 0.1.2 deliberately adjusts the default pitch/framing; CameraTest bounds that change.
+        // Preserve the other original geometry, gesture/animation rules and shader assets.
         val root=File("..");val manifest=File(root,"docs/verification/ui-renderer-before.sha256")
-        manifest.readLines().filter{it.isNotBlank() && !it.endsWith("CemeteryScene.kt") && !it.endsWith("DioramaWorld.kt")}.forEach { line ->
+        manifest.readLines().filter{it.isNotBlank() && !it.endsWith("CemeteryScene.kt") && !it.endsWith("DioramaWorld.kt") && !it.endsWith("CameraController.kt")}.forEach { line ->
             val (expected,path)=line.split(Regex("\\s+"),limit=2)
             val actual=MessageDigest.getInstance("SHA-256").digest(File(root,path).readBytes()).joinToString(""){"%02x".format(it)}
             assertEquals("Native renderer changed: $path",expected,actual)

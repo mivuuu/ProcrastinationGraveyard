@@ -16,4 +16,15 @@ class CameraTest {
     @Test fun pinchChangesOnlyLensAndCannotBecomeATap(){val c=CameraController();val g=CemeteryGestures(c,8f,1f);g.down(50f,100f);g.secondPointer(100f);g.pinch(120f);g.pinch(150f);assertTrue(c.targetFocalLength>32f);assertEquals(0f,c.targetX);g.pointerUp();g.move(-100f,100f);assertEquals(0f,c.targetX);assertFalse(g.up(-100f,100f))}
     @Test fun smallFingerJitterIsATap(){val c=CameraController();val g=CemeteryGestures(c,8f,1f);g.down(10f,10f);g.move(12f,13f);assertEquals(0f,c.targetX);assertTrue(g.up(12f,13f))}
     @Test fun oldFocusSaveStateRestoresNavigationFrame(){val c=CameraController.restoreState(listOf(20f,40f,.4f,21f,42f,.5f,true,"g",-7f,31f,0f));assertEquals(-7f,c.x);assertEquals(31f,c.focalLength);assertFalse(c.locked)}
+    @Test fun subtleFrontalPitchAndAllFourRowsFitAtMaximumZoom(){
+        val before=kotlin.math.atan2(12.0,30.0)*180/kotlin.math.PI
+        val after=kotlin.math.atan2(CameraController.HEIGHT.toDouble(),CameraController.LOOK_DEPTH.toDouble())*180/kotlin.math.PI
+        assertTrue("Pitch reduction must remain subtle: ${before-after}",before-after in 5.0..8.0)
+        val halfFov=kotlin.math.atan(12.0/CameraController.MAX_FOCAL)
+        repeat(4){row->
+            val z=org.cemetery.app.domain.CemeteryPlacement.FRONT_Z-row*org.cemetery.app.domain.CemeteryPlacement.ROW_SPACING
+            val angle=kotlin.math.atan2(CameraController.HEIGHT-.85,CameraController.DEPTH-z.toDouble())
+            assertTrue("Row $row is outside the maximum-zoom vertical viewport",kotlin.math.abs(angle-after*kotlin.math.PI/180)<halfFov)
+        }
+    }
 }

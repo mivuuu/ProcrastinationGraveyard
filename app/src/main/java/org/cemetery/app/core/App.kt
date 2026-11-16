@@ -59,8 +59,10 @@ val LocalHostActivity = staticCompositionLocalOf<androidx.activity.ComponentActi
             val error by vm.errors.collectAsStateWithLifecycle()
             val owner=LocalLifecycleOwner.current
             LaunchedEffect(owner) {owner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){while(true){vm.refresh();delay(15_000)}}}
-            // Keep the expensive Filament engine across tab changes; viewport resources remain destination-scoped.
+            // Retain GPU resources and world geometry; only the Android surface is destination-scoped.
             val cemeteryEngine=rememberEngine()
+            val renderStore=remember(cemeteryEngine){CemeteryRenderStore(cemeteryEngine,base.applicationContext)}
+            DisposableEffect(renderStore){onDispose{renderStore.close()}}
             val nav=rememberNavController()
             val entry by nav.currentBackStackEntryAsState()
             val route=entry?.destination?.route ?: "tasks"
@@ -80,11 +82,12 @@ val LocalHostActivity = staticCompositionLocalOf<androidx.activity.ComponentActi
                         settings=if(route!="settings")({selectedId=null;presentationReadyId=null;nav.navigate("settings"){launchSingleTop=true}}) else null,
                         back=if(route=="settings")({nav.popBackStack()}) else null)
                     Box(Modifier.weight(1f)) {
-                        // SurfaceView uses a separate compositor surface and cannot participate in crossfades.
+                        // Never retain two destination renderers during a NavHost crossfade.
+                        // Animate native content and readiness UI independently of the renderer.
                         NavHost(nav,startDestination="tasks",enterTransition={EnterTransition.None},exitTransition={ExitTransition.None},popEnterTransition={EnterTransition.None},popExitTransition={ExitTransition.None}) {
-                            composable("tasks"){TaskScreen(snapshot,now,edit={editingId=it?.id;editor=true},complete={vm.complete(it.id)},visit={select(it)},remove={deleteId=it.id})}
-                            composable("cemetery"){CemeteryScreen(cemeteryEngine,snapshot,now,dark,camera,selectedId,presentationBusy,onSelect={select(it)},onPresentationState={id,ready->presentationBusy=id!=null;presentationReadyId=if(ready)id else null;if(id==null && selectedId!=null && snapshot.graves.none{it.id==selectedId})selectedId=null})}
-                            composable("settings"){SettingsScreen(settings,vm)}
+                            composable("tasks"){CemeteryContentReveal{TaskScreen(snapshot,now,edit={editingId=it?.id;editor=true},complete={vm.complete(it.id)},visit={select(it)},remove={deleteId=it.id})}}
+                            composable("cemetery"){CemeteryScreen(renderStore,snapshot,now,dark,camera,selectedId,presentationBusy,onSelect={select(it)},onPresentationState={id,ready->presentationBusy=id!=null;presentationReadyId=if(ready)id else null;if(id==null && selectedId!=null && snapshot.graves.none{it.id==selectedId})selectedId=null})}
+                            composable("settings"){CemeteryContentReveal{SettingsScreen(settings,vm)}}
                         }
                     }
                     CemeteryNavigationBar(route,tasks={selectedId=null;tab("tasks")},cemetery={tab("cemetery")})
@@ -92,16 +95,17 @@ val LocalHostActivity = staticCompositionLocalOf<androidx.activity.ComponentActi
             }
             if(error)CemeteryDialog({vm.errors.value=false}){
                 CemeteryText(stringResource(R.string.error_generic),style=CemeteryDesign.type.title)
-                CemeteryButton(stringResource(R.string.dismiss),{vm.errors.value=false},Modifier.fillMaxWidth())
+                CemeteryDismissButton(stringResource(R.string.dismiss),{vm.errors.value=false},Modifier.fillMaxWidth())
             }
             if(selectedId!=null && presentationReadyId==null)BackHandler{selectedId=null}
             if(editor)TaskEditor(snapshot.tasks.find{it.id==editingId},close={editor=false},save=vm::save)
             if(selected!=null && route=="cemetery" && presentationReadyId==selectedId) snapshot.tasks.find{it.id==selected.taskId}?.let {task ->GraveSheet(selected,task,snapshot.history.filter{it.taskId==task.id},now,close={selectedId=null},complete={vm.complete(task.id)},edit={editingId=task.id;selectedId=null;editor=true},remove={deleteId=task.id})}
             if(deleteId!=null)CemeteryDialog({deleteId=null}){
+                val exit=LocalOverlayExit.current
                 CemeteryText(stringResource(R.string.delete_title),style=CemeteryDesign.type.title)
                 CemeteryText(stringResource(R.string.delete_message),color=CemeteryDesign.colors.secondary)
-                CemeteryButton(stringResource(R.string.delete),{deleteId?.let(vm::delete);if(selected?.taskId==deleteId)selectedId=null;deleteId=null},Modifier.fillMaxWidth(),kind=ButtonKind.DANGER)
-                CemeteryButton(stringResource(R.string.cancel),{deleteId=null},Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
+                CemeteryButton(stringResource(R.string.delete),{deleteId?.let(vm::delete);if(selected?.taskId==deleteId)selectedId=null;exit{deleteId=null}},Modifier.fillMaxWidth(),kind=ButtonKind.DANGER)
+                CemeteryDismissButton(stringResource(R.string.cancel),{deleteId=null},Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
             }
         }
     }

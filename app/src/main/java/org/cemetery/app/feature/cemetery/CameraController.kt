@@ -38,9 +38,9 @@ class CameraController {
     fun saveState(): List<Any> = listOf("cartoon-v1",x,focalLength,targetX,targetFocalLength,initialized)
     companion object {
         const val HEIGHT=12f
-        const val DEPTH=21f
+        const val DEPTH=23f
         const val OFFSET_X=0f
-        const val LOOK_DEPTH=30f
+        const val LOOK_DEPTH=42f
         const val MIN_FOCAL=25f
         const val DEFAULT_FOCAL=32f
         const val MAX_FOCAL=44f

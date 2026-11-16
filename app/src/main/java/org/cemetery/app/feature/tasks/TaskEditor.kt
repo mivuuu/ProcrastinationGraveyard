@@ -24,18 +24,19 @@ import java.time.*
         1->CemeteryDateDialog(local.toLocalDate(),{picker=0}){date->deadline=date.atTime(local.toLocalTime()).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();picker=0}
         2->CemeteryTimeDialog(local.toLocalTime(),{picker=0}){time->deadline=local.toLocalDate().atTime(time).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();picker=0}
         else->CemeteryDialog(close){
+            val exit=LocalOverlayExit.current
             CemeteryText(stringResource(if(task==null)R.string.add else R.string.edit),style=CemeteryDesign.type.title)
             CemeteryTextField(title,{title=it;invalid=false},stringResource(R.string.title),error=if(invalid)stringResource(R.string.validation_title) else null)
             CemeteryTextField(description,{description=it},stringResource(R.string.description),singleLine=false)
             CemeteryText(stringResource(R.string.deadline),style=CemeteryDesign.type.label)
             CemeteryText(dateTime(context,deadline),color=CemeteryDesign.colors.secondary)
             Row(horizontalArrangement=Arrangement.spacedBy(8.dp)){
-                CemeteryButton(stringResource(R.string.choose_date),{picker=1},Modifier.weight(1f),kind=ButtonKind.SECONDARY,glyph=CemeteryGlyph.CALENDAR)
-                CemeteryButton(stringResource(R.string.choose_time),{picker=2},Modifier.weight(1f),kind=ButtonKind.SECONDARY,glyph=CemeteryGlyph.CLOCK)
+                CemeteryButton(stringResource(R.string.choose_date),{exit{picker=1}},Modifier.weight(1f),kind=ButtonKind.SECONDARY,glyph=CemeteryGlyph.CALENDAR)
+                CemeteryButton(stringResource(R.string.choose_time),{exit{picker=2}},Modifier.weight(1f),kind=ButtonKind.SECONDARY,glyph=CemeteryGlyph.CLOCK)
             }
             CemeteryText(stringResource(R.string.time_zone,ZoneId.systemDefault().id),style=CemeteryDesign.type.small,color=CemeteryDesign.colors.secondary)
-            CemeteryButton(stringResource(R.string.save),{if(LifecycleRules.validate(title)){save(task?.id,title,description,deadline);close()}else invalid=true},Modifier.fillMaxWidth())
-            CemeteryButton(stringResource(R.string.cancel),close,Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
+            CemeteryButton(stringResource(R.string.save),{if(LifecycleRules.validate(title)){save(task?.id,title,description,deadline);exit(close)}else invalid=true},Modifier.fillMaxWidth())
+            CemeteryDismissButton(stringResource(R.string.cancel),close,Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
         }
     }
 }

@@ -1,0 +1,1 @@
+package: name='org.cemetery.app' versionCode='3' versionName='0.1.2' platformBuildVersionName='15' platformBuildVersionCode='35' compileSdkVersion='35' compileSdkVersionCodename='15'

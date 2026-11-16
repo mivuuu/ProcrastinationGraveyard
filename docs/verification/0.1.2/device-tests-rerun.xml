@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="org.cemetery.app.CustomUiTest" tests="3" failures="0" errors="0" skipped="0" time="446.171" timestamp="2026-11-16T14:48:40" hostname="localhost">
+  <properties>
+    <property name="device" value="emulator-5560 - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="customEditorValidationKeyboardAndPersistence" classname="org.cemetery.app.CustomUiTest" time="89.161" />
+  <testcase name="createCompleteAndDeleteThroughUi" classname="org.cemetery.app.UiSmokeTest" time="66.359" />
+  <testcase name="repeatedTabsKeepOneEngineAndCameraRelativeClouds" classname="org.cemetery.app.VisualFixTest" time="287.602" />
+</testsuite>

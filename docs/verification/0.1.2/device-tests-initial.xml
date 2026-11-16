@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="org.cemetery.app.CustomUiTest" tests="21" failures="3" errors="0" skipped="0" time="733.218" timestamp="2026-11-16T14:37:34" hostname="localhost">
+  <properties>
+    <property name="device" value="emulator-5560 - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="narrowScreenLargeTextAndKeyboardRemainUsable" classname="org.cemetery.app.CustomUiTest" time="29.33" />
+  <testcase name="referenceThemesAndLiveThemeState" classname="org.cemetery.app.CustomUiTest" time="50.005" />
+  <testcase name="customEditorValidationKeyboardAndPersistence" classname="org.cemetery.app.CustomUiTest" time="75.206">
+    <failure>java.lang.AssertionError
+at org.junit.Assert.fail(Assert.java:87)
+at org.junit.Assert.assertTrue(Assert.java:42)
+at org.junit.Assert.assertTrue(Assert.java:53)
+at org.cemetery.app.CustomUiTest$customEditorValidationKeyboardAndPersistence$1.invokeSuspend(CustomUiTest.kt:83)
+at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:99)
+at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)
+at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:95)
+at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:69)
+at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)
+at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:47)
+at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)
+at org.cemetery.app.CustomUiTest.customEditorValidationKeyboardAndPersistence(CustomUiTest.kt:66)
+</failure>
+  </testcase>
+  <testcase name="deniedPermissionLeavesTasksUsable" classname="org.cemetery.app.DeniedReminderTest" time="0.184" />
+  <testcase name="migrationKeepsRecordsAndAdvancesAllocation" classname="org.cemetery.app.MigrationTest" time="0.091" />
+  <testcase name="horizontalLayoutMigrationPreservesAllUserRecords" classname="org.cemetery.app.MigrationTest" time="0.078" />
+  <testcase name="upgradeFromFirstVersionKeepsAssociations" classname="org.cemetery.app.MigrationTest" time="0.029" />
+  <testcase name="reminderDeliveredAndDisabledPreferenceIsSafe" classname="org.cemetery.app.ReminderTest" time="0.163" />
+  <testcase name="repeatedMissCreatesOneGravePerDeadline" classname="org.cemetery.app.RepositoryTest" time="0.1" />
+  <testcase name="overdueDedupRescheduleResurrect" classname="org.cemetery.app.RepositoryTest" time="0.122" />
+  <testcase name="persistedDatabaseSurvivesReopen" classname="org.cemetery.app.RepositoryTest" time="0.103" />
+  <testcase name="createEditCompleteDelete" classname="org.cemetery.app.RepositoryTest" time="0.075" />
+  <testcase name="deletionNeverReusesHistoricalPlot" classname="org.cemetery.app.RepositoryTest" time="0.025" />
+  <testcase name="earlyCancellationAndTabChangesRestoreWorld" classname="org.cemetery.app.UiSmokeTest" time="38.483" />
+  <testcase name="largeTextAndLandscapeKeepPresentationVisible" classname="org.cemetery.app.UiSmokeTest" time="44.016" />
+  <testcase name="realScreensAndPersistedSettings" classname="org.cemetery.app.UiSmokeTest" time="119.134" />
+  <testcase name="createCompleteAndDeleteThroughUi" classname="org.cemetery.app.UiSmokeTest" time="49.326">
+    <failure>java.util.NoSuchElementException: List is empty.
+at kotlin.collections.CollectionsKt___CollectionsKt.last(_Collections.kt:428)
+at org.cemetery.app.UiSmokeTest.click(UiSmokeTest.kt:130)
+at org.cemetery.app.UiSmokeTest.access$click(UiSmokeTest.kt:16)
+at org.cemetery.app.UiSmokeTest$createCompleteAndDeleteThroughUi$1.invokeSuspend(UiSmokeTest.kt:336)
+at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+at kotlinx.coroutines.UndispatchedCoroutine.afterResume(CoroutineContext.kt:266)
+at kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:100)
+at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)
+at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:101)
+at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)
+at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:95)
+at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:69)
+at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)
+at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:47)
+at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)
+at org.cemetery.app.UiSmokeTest.createCompleteAndDeleteThroughUi(UiSmokeTest.kt:330)
+</failure>
+  </testcase>
+  <testcase name="recordedSpinAndReducedMotionKeepDataSafe" classname="org.cemetery.app.UiSmokeTest" time="34.422" />
+  <testcase name="flowersUseOneRoundHaloAndCloseIsFixed" classname="org.cemetery.app.VisualFixTest" time="71.99" />
+  <testcase name="firstFrameIsRendered" classname="org.cemetery.app.VisualFixTest" time="13.047" />
+  <testcase name="repeatedTabsKeepOneEngineAndCameraRelativeClouds" classname="org.cemetery.app.VisualFixTest" time="196.849">
+    <failure>java.lang.AssertionError: A stale sky surface is visible over Tasks expected:&lt;0&gt; but was:&lt;22274&gt;
+at org.junit.Assert.fail(Assert.java:89)
+at org.junit.Assert.failNotEquals(Assert.java:835)
+at org.junit.Assert.assertEquals(Assert.java:120)
+at org.cemetery.app.VisualFixTest.assertTasksHaveNoSurface(VisualFixTest.kt:157)
+at org.cemetery.app.VisualFixTest.access$assertTasksHaveNoSurface(VisualFixTest.kt:31)
+at org.cemetery.app.VisualFixTest$repeatedTabsKeepOneEngineAndCameraRelativeClouds$1.invokeSuspend(VisualFixTest.kt:194)
+at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+at kotlinx.coroutines.UndispatchedCoroutine.afterResume(CoroutineContext.kt:266)
+at kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:100)
+at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)
+at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:101)
+at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)
+at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:95)
+at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:69)
+at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)
+at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:47)
+at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)
+at org.cemetery.app.VisualFixTest.repeatedTabsKeepOneEngineAndCameraRelativeClouds(VisualFixTest.kt:178)
+</failure>
+  </testcase>
+</testsuite>

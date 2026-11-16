@@ -23,13 +23,13 @@ class UiSmokeTest {
     @get:Rule val failureScreenshot=object:org.junit.rules.TestWatcher(){
         override fun failed(error:Throwable,description:org.junit.runner.Description){device.takeScreenshot(File(context.getExternalFilesDir(null),"failure-${description.methodName}.png"))}
     }
-    private fun sceneOnMain(block:(io.github.sceneview.SceneView)->Unit) {
-        var scene:io.github.sceneview.SceneView?=null
+    private fun sceneOnMain(block:(org.cemetery.app.feature.cemetery.CemeteryTextureView)->Unit) {
+        var scene:org.cemetery.app.feature.cemetery.CemeteryTextureView?=null
         val until=android.os.SystemClock.uptimeMillis()+10_000
         do {
             instrumentation.runOnMainSync {
-                fun find(view:android.view.View):io.github.sceneview.SceneView? {
-                    if(view is io.github.sceneview.SceneView)return view
+                fun find(view:android.view.View):org.cemetery.app.feature.cemetery.CemeteryTextureView? {
+                    if(view is org.cemetery.app.feature.cemetery.CemeteryTextureView)return view
                     if(view is android.view.ViewGroup)for(i in 0 until view.childCount)find(view.getChildAt(i))?.let{return it}
                     return null
                 }
@@ -333,7 +333,11 @@ class UiSmokeTest {
         click("Plant a promise")
         assertTrue(device.wait(Until.hasObject(By.clazz("android.widget.EditText")),5000))
         device.findObjects(By.clazz("android.widget.EditText")).first().apply{click();text="UI promise"}
-        device.pressBack();click("Choose date");click("Save");click("Choose time");click("Save");click("Save")
+        device.pressBack();click("Choose date")
+        assertTrue(device.wait(Until.hasObject(By.desc("Previous month")),5000));click("Save")
+        assertTrue(device.wait(Until.hasObject(By.text(context.getString(R.string.description))),5000))
+        click("Choose time");assertTrue(device.wait(Until.hasObject(By.text("Hour")),5000));click("Save")
+        assertTrue(device.wait(Until.hasObject(By.text(context.getString(R.string.description))),5000));click("Save")
         assertTrue(device.wait(Until.hasObject(By.text("UI promise")),5000))
         assertTrue(device.wait(Until.hasObject(By.desc("Mark completed")),5000))
         clickDescription("Mark completed");click("Completed")
@@ -341,7 +345,15 @@ class UiSmokeTest {
         clickDescription("Delete task");click("Delete task")
         assertTrue(device.wait(Until.gone(By.text("UI promise")),5000))
     }
+    private fun exportCaptures(){
+        val target="/sdcard/Download/cemetery-qa-${BuildConfig.VERSION_NAME}"
+        device.executeShellCommand("mkdir -p $target")
+        context.getExternalFilesDir(null)?.listFiles()?.filter{it.extension in listOf("png","mp4") && it.name.matches(Regex("[a-zA-Z0-9_.-]+"))}?.forEach{
+            device.executeShellCommand("cp ${it.path} $target/${it.name}")
+        }
+    }
     @After fun cleanFixtures()=runBlocking<Unit> {
+        exportCaptures()
         device.takeScreenshot(File(context.getExternalFilesDir(null),"last-frame.png"))
         device.pressHome()
         deps.repository().snapshot.first().tasks.filter{it.id.startsWith("ui-smoke-") || it.title=="UI promise"}.forEach{deps.repository().delete(it.id)}

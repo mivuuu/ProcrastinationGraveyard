@@ -54,7 +54,7 @@ import org.cemetery.app.ui.*
         CemeteryText(stringResource(R.string.licenses),style=CemeteryDesign.type.title)
         CemeteryText(stringResource(R.string.licenses_body))
         CemeteryText(remember{context.assets.open("THIRD_PARTY_NOTICES.txt").bufferedReader().use{it.readText()}+"\n\n"+context.assets.open("fonts/Nunito-OFL.txt").bufferedReader().use{it.readText()}},style=CemeteryDesign.type.small)
-        CemeteryButton(stringResource(R.string.close),{licenses=false},Modifier.fillMaxWidth())
+        CemeteryDismissButton(stringResource(R.string.close),{licenses=false},Modifier.fillMaxWidth())
     }
 }
 @Composable private fun Choice(label:Int,selected:String,options:List<Pair<String,Int>>,choose:(String)->Unit){
@@ -64,8 +64,9 @@ import org.cemetery.app.ui.*
         CemeteryButton(stringResource(options.first{it.first==selected}.second),{open=true},Modifier.fillMaxWidth(),kind=ButtonKind.SECONDARY,glyph=CemeteryGlyph.CHEVRON)
     }
     if(open)CemeteryDialog({open=false}){
+        val exit=LocalOverlayExit.current
         CemeteryText(stringResource(label),style=CemeteryDesign.type.title)
-        options.forEach{(key,res)->CemeteryFilterTab(stringResource(res),key==selected,{choose(key);open=false},Modifier.fillMaxWidth())}
-        CemeteryButton(stringResource(R.string.close),{open=false},Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
+        options.forEach{(key,res)->CemeteryFilterTab(stringResource(res),key==selected,{choose(key);exit{open=false}},Modifier.fillMaxWidth())}
+        CemeteryDismissButton(stringResource(R.string.close),{open=false},Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
     }
 }

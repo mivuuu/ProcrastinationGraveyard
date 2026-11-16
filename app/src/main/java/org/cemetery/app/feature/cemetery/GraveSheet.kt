@@ -40,16 +40,17 @@ import org.cemetery.app.ui.*
                 CemeteryDivider();CemeteryText(stringResource(R.string.history),style=CemeteryDesign.type.label)
                 history.forEach {CemeteryText(if(it.type=="rescheduled")stringResource(R.string.history_rescheduled,dateTime(context,it.previousDeadline),dateTime(context,it.newDeadline)) else stringResource(R.string.history_completed,dateTime(context,it.at)),style=CemeteryDesign.type.small,color=CemeteryDesign.colors.secondary)}
             }
-            if(task.completedAt==null){CemeteryButton(stringResource(R.string.done),complete,Modifier.fillMaxWidth(),glyph=CemeteryGlyph.CHECK);CemeteryButton(stringResource(R.string.reschedule),edit,Modifier.fillMaxWidth(),kind=ButtonKind.SECONDARY)}
+            if(task.completedAt==null){CemeteryButton(stringResource(R.string.done),complete,Modifier.fillMaxWidth(),glyph=CemeteryGlyph.CHECK);CemeteryDismissButton(stringResource(R.string.reschedule),edit,Modifier.fillMaxWidth(),kind=ButtonKind.SECONDARY)}
         }
         Column(Modifier.fillMaxWidth().padding(horizontal=24.dp).padding(top=8.dp,bottom=16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
             CemeteryDivider()
-            CemeteryButton(stringResource(R.string.close),close,Modifier.fillMaxWidth().testTag("grave-close"),kind=ButtonKind.QUIET)
+            CemeteryDismissButton(stringResource(R.string.close),close,Modifier.fillMaxWidth().testTag("grave-close"),kind=ButtonKind.QUIET)
         }
     }
     if(menu)CemeteryDialog({menu=false}){
+        val exit=LocalOverlayExit.current
         CemeteryText(stringResource(R.string.grave_details),style=CemeteryDesign.type.title)
-        CemeteryButton(stringResource(R.string.delete),{menu=false;remove()},Modifier.fillMaxWidth(),kind=ButtonKind.DANGER,glyph=CemeteryGlyph.DELETE)
-        CemeteryButton(stringResource(R.string.close),{menu=false},Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
+        CemeteryButton(stringResource(R.string.delete),{exit{menu=false;remove()}},Modifier.fillMaxWidth(),kind=ButtonKind.DANGER,glyph=CemeteryGlyph.DELETE)
+        CemeteryDismissButton(stringResource(R.string.close),{menu=false},Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
     }
 }

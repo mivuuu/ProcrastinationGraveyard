@@ -1,0 +1,2 @@
+app/build/outputs/apk/debug/app-debug.apk 42229030 bytes
+691e0023f9c2cfe0092f6be634b2cafe858c4ad8ed62952276f8eb328bafac01  app/build/outputs/apk/debug/app-debug.apk

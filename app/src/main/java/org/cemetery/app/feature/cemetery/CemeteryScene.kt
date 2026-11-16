@@ -5,17 +5,11 @@ import android.view.MotionEvent
 import android.view.ViewConfiguration
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.*
 import androidx.lifecycle.*
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.google.android.filament.Engine
-import com.google.android.filament.ColorGrading
-import com.google.android.filament.ToneMapper
-import com.google.android.filament.IndirectLight
-import com.google.android.filament.Skybox
 import io.github.sceneview.*
 import io.github.sceneview.math.Position
 import org.cemetery.app.R
@@ -24,46 +18,25 @@ import org.cemetery.app.ui.gravePanelFraction
 import kotlin.math.*
 
 private class CartoonFrame {
-    var time=0L;var frames=0;var center=Int.MIN_VALUE;var radius=-1
+    var time=0L;var center=Int.MIN_VALUE;var radius=-1
     var x=Float.NaN;var focal=Float.NaN;var width=0;var height=0
     var travel=Float.NaN;var yaw=Float.NaN;var spec:StoneSpec?=null
     var reportedId:String?=null;var reportedReady=false
-    var scene:SceneView?=null;val origin=IntArray(2);var available=.47f
+    var scene:CemeteryTextureView?=null;val origin=IntArray(2);var available=.47f
 }
 
 @Composable
-fun CemeteryScene(modifier:Modifier,engine:Engine,snapshot:Snapshot,now:Long,dark:Boolean,camera:CameraController,
-                  selectedId:String?,onSelect:(Grave)->Unit,onReady:()->Unit,
+internal fun CemeteryScene(modifier:Modifier,store:CemeteryRenderStore,snapshot:Snapshot,now:Long,dark:Boolean,camera:CameraController,
+                  selectedId:String?,onSelect:(Grave)->Unit,onReady:(Boolean)->Unit,
                   onPresentationState:(String?,Boolean)->Unit) {
     val host=org.cemetery.app.core.LocalHostActivity.current!!
     camera.configure(snapshot.graves)
     val lifecycle=LocalLifecycleOwner.current.lifecycle
-    val loader=rememberMaterialLoader(engine)
-    val meshes=remember(engine){CartoonMeshFactory(engine)}
-    DisposableEffect(meshes){onDispose{meshes.close()}}
-    val environment=rememberEnvironment(engine,environment=remember(engine){{SceneView.createEnvironment(engine,
-        indirectLight=IndirectLight.Builder().irradiance(1,floatArrayOf(1f,1f,1f)).intensity(20_000f).build(engine),
-        skybox=Skybox.Builder().color(.25f,.55f,.95f,1f).build(engine))}})
-    val stone=remember(loader){loader.createMaterial("materials/garden.filamat")}
-    val flat=remember(loader){loader.createMaterial("materials/outline.filamat")}
-    val palette=remember(loader){
-        val colors=listOf(0xFF91C94B,0xFF95CC50,0xFFBEC2C8,0xFFC8CBD0,0xFFB8BEC6,0xFFCDD0D4,
-            0xFFFFFEF3,0xFF448859,0xFF66A545,0xFF428E54,0xFFC6A3DE,0xFFF5CE5A,
-            0xFF348765,0xFF54A35B,0xFF91C982,0xFF8CC6FB,0xFFA4D7FC,0xFF64AA46,
-            0xFF969FA9,0xFFAF8552,0xFF8CC64A,0xFFDEEFFD).map{Color(it)}+
-            (0..11).map{ i->androidx.compose.ui.graphics.lerp(Color(0xFFA0D4FC),Color(0xFF86C3FA),i/11f)}
-        colors.mapIndexed{index,c->loader.createInstance(if(index in 2..5)stone else flat).apply{
-            setParameter("baseColor",c.red.toDouble().pow(2.2).toFloat(),c.green.toDouble().pow(2.2).toFloat(),c.blue.toDouble().pow(2.2).toFloat(),1f)
-        }}
-    }
-    DisposableEffect(palette){onDispose{palette.forEach{loader.destroyMaterialInstance(it)}}}
-    val grading=remember(engine){ColorGrading.Builder().toneMapper(ToneMapper.Linear()).build(engine)}
-    DisposableEffect(grading){onDispose{runCatching{engine.destroyColorGrading(grading)}}}
-    val cameraNode=rememberCameraNode(engine){
-        position=Position(camera.x,CameraController.HEIGHT,CameraController.DEPTH)
-        lookAt(Position(camera.x,0f,CameraController.DEPTH-CameraController.LOOK_DEPTH))
-        focalLength=camera.focalLength.toDouble();near=.1f;far=220f
-    }
+    val ready by rememberUpdatedState(onReady)
+    val gate=remember{SurfaceFrameGate{ready(it)}}
+    DisposableEffect(gate){onDispose{gate.close()}}
+    val session=remember(store){store.session(camera)}
+    val cameraNode=session.cameraNode
     val presentation=remember{GravePresentation()}
     val frame=remember{CartoonFrame()}
     var heldId by remember{mutableStateOf<String?>(null)}
@@ -72,11 +45,19 @@ fun CemeteryScene(modifier:Modifier,engine:Engine,snapshot:Snapshot,now:Long,dar
     val selectedSpec=remember(snapshot.graves,heldId){snapshot.graves.find{it.id==heldId}?.let(::StoneSpec)}
     val liveSpec by rememberUpdatedState(selectedSpec)
     val plants=remember(snapshot.tasks,now/60_000,sections){if(0 in sections)snapshot.tasks.filter{it.completedAt==null && it.deadline>=now}.take(16).map{SproutSpec(it.id,(it.health(now)*10).toInt())} else emptyList()}
-    val world=remember(engine,palette){DioramaWorld(engine,meshes,palette).apply{update(sections,specs,plants,heldId)}}
-    var nodes by remember(world){mutableStateOf(world.nodes)}
+    val world=session.world
+    val nodes=remember(world,sections,specs,plants,heldId){world.update(sections,specs,plants,heldId);world.nodes}
     val stateCallback by rememberUpdatedState(onPresentationState)
-    DisposableEffect(world){onDispose{presentation.reset();camera.unlock();world.close();stateCallback(null,false)}}
-    LaunchedEffect(world,sections,specs,plants,heldId){if(world.update(sections,specs,plants,heldId))nodes=world.nodes}
+    val latestSections by rememberUpdatedState(sections)
+    val latestSpecs by rememberUpdatedState(specs)
+    val latestPlants by rememberUpdatedState(plants)
+    DisposableEffect(world){onDispose{
+        frame.scene?.let(session::detach);frame.scene=null
+        presentation.id?.let(world::restore)
+        presentation.reset();camera.unlock()
+        world.update(latestSections,latestSpecs,latestPlants,null);world.releaseRetired()
+        stateCallback(null,false)
+    }}
     LaunchedEffect(selectedId,world){
         if(selectedId==null){
             val closing=presentation.id
@@ -97,12 +78,13 @@ fun CemeteryScene(modifier:Modifier,engine:Engine,snapshot:Snapshot,now:Long,dar
     DisposableEffect(lifecycle){
         val observer=LifecycleEventObserver{_,event->
             frame.time=0L
+            gate.reset()
             frame.scene?.visibility=if(event==Lifecycle.Event.ON_RESUME)android.view.View.VISIBLE else android.view.View.INVISIBLE
         }
         lifecycle.addObserver(observer)
         onDispose{
             lifecycle.removeObserver(observer)
-            frame.scene?.apply{visibility=android.view.View.GONE;onFrame=null}
+            frame.scene?.let(session::detach)
             frame.scene=null
         }
     }
@@ -110,21 +92,16 @@ fun CemeteryScene(modifier:Modifier,engine:Engine,snapshot:Snapshot,now:Long,dar
     val touch=remember(camera,context){CemeteryGestures(camera,ViewConfiguration.get(context).scaledTouchSlop.toFloat(),context.resources.displayMetrics.density)}
     val select by rememberUpdatedState(onSelect)
     val currentGraves by rememberUpdatedState(snapshot.graves)
-    val ready by rememberUpdatedState(onReady)
     val description=stringResource(R.string.cemetery_accessibility)
-    Scene(modifier=modifier.semantics{contentDescription=description},activity=host,lifecycle=lifecycle,
-        engine=engine,materialLoader=loader,environment=environment,cameraNode=cameraNode,childNodes=nodes,
-        cameraManipulator=null,onGestureListener=null,
+    CemeteryViewport(modifier=modifier.semantics{contentDescription=description},activity=host,lifecycle=lifecycle,
+        session=session,childNodes=nodes,
         onViewCreated={
-            frame.scene=this
-            setZOrderOnTop(false);setZOrderMediaOverlay(false)
+            frame.scene=this;session.bind(this);tag=CemeteryViewportState(session,gate)
             visibility=if(lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))android.view.View.VISIBLE else android.view.View.INVISIBLE
-            val old=view.colorGrading;view.colorGrading=grading
-            old?.let{runCatching{engine.destroyColorGrading(it)}}
         },
         onViewUpdated={world.releaseRetired()},
         onTouchEvent={event,hit->
-            if(presentation.busy){touch.cancel();true} else {
+            if(presentation.busy || !gate.ready){touch.cancel();true} else {
                 fun span()=hypot(event.getX(0)-event.getX(1),event.getY(0)-event.getY(1))
                 when(event.actionMasked){
                     MotionEvent.ACTION_DOWN->touch.down(event.x,event.y)
@@ -165,6 +142,6 @@ fun CemeteryScene(modifier:Modifier,engine:Engine,snapshot:Snapshot,now:Long,dar
             val radius=(ceil(48f*12f/camera.focalLength*aspect/CemeteryPlacement.SECTION_WIDTH).toInt()+1).coerceIn(2,5)
             val center=CemeteryPlacement.sectionAt(camera.x)
             if(center!=frame.center || radius!=frame.radius){frame.center=center;frame.radius=radius;sections=center-radius..center+radius}
-            if(++frame.frames==4)ready()
+            frame.scene?.let(gate::afterFrame)
         })
 }

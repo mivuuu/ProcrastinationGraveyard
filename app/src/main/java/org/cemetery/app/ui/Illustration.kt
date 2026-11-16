@@ -1,7 +1,8 @@
 package org.cemetery.app.ui
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.animation.core.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.*
@@ -12,6 +13,9 @@ import org.cemetery.app.core.CemeteryDesign
 /** Original vector artwork. Decorative: the adjacent localized text carries the empty-state meaning. */
 @Composable fun SproutIllustration(modifier:Modifier=Modifier){
     val c=CemeteryDesign.colors
+    val sway:State<Float> = if(CemeteryDesign.motion){
+        rememberInfiniteTransition(label="sprout-idle").animateFloat(-.6f,.6f,infiniteRepeatable(tween(3600,easing=FastOutSlowInEasing),RepeatMode.Reverse),label="leaves")
+    }else remember{mutableFloatStateOf(0f)}
     Canvas(modifier.clearAndSetSemantics{}){
         val factor=minOf(size.width/320f,size.height/220f)
         translate((size.width-320*factor)/2,(size.height-220*factor)/2){scale(factor,pivot=Offset.Zero){
@@ -19,10 +23,12 @@ import org.cemetery.app.core.CemeteryDesign
             drawCircle(bush,29f,Offset(47f,166f));drawCircle(bush,19f,Offset(80f,172f));drawCircle(bush,14f,Offset(103f,175f))
             drawCircle(bush,31f,Offset(265f,163f));drawCircle(bush,20f,Offset(292f,179f));drawCircle(bush,15f,Offset(226f,176f))
             drawOval(Brush.verticalGradient(listOf(lime,androidx.compose.ui.graphics.lerp(lime,c.selected,.12f))),Offset(104f,84f),Size(121f,121f))
+            rotate(sway.value,pivot=Offset(174f,87f)){
             drawPath(Path().apply{moveTo(167f,87f);cubicTo(137f,76f,144f,41f,151f,34f);cubicTo(177f,39f,182f,69f,174f,88f);close()},androidx.compose.ui.graphics.lerp(lime,bush,.32f))
             drawPath(Path().apply{moveTo(174f,87f);cubicTo(173f,60f,201f,40f,224f,49f);cubicTo(221f,76f,202f,93f,174f,87f);close()},androidx.compose.ui.graphics.lerp(lime,bush,.24f))
             drawLine(ink.copy(alpha=.65f),Offset(170f,86f),Offset(160f,57f),3.8f,StrokeCap.Round)
             drawLine(ink.copy(alpha=.65f),Offset(178f,84f),Offset(204f,62f),3.8f,StrokeCap.Round)
+            }
             val face=Stroke(3.7f,cap=StrokeCap.Round,join=StrokeJoin.Round)
             drawPath(Path().apply{moveTo(136f,126f);cubicTo(139f,117f,148f,117f,151f,126f)},ink,style=face)
             drawPath(Path().apply{moveTo(177f,128f);cubicTo(180f,119f,189f,119f,192f,128f)},ink,style=face)

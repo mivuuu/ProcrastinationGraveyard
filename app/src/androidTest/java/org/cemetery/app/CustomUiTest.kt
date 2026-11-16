@@ -30,6 +30,14 @@ class CustomUiTest {
     private fun screenshot(name:String){android.os.SystemClock.sleep(500);device.takeScreenshot(File(context.getExternalFilesDir(null),"custom-$name.png"))}
     private fun launch(){context.startActivity(Intent(context,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK));device.waitForIdle();android.os.SystemClock.sleep(500)}
     private fun activity():android.app.Activity?{var result:android.app.Activity?=null;instrumentation.runOnMainSync{result=ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED).firstOrNull()};return result}
+    private fun exportCaptures(){
+        val target="/sdcard/Download/cemetery-qa-${BuildConfig.VERSION_NAME}"
+        device.executeShellCommand("mkdir -p $target")
+        context.getExternalFilesDir(null)?.listFiles()?.filter{it.extension in listOf("png","mp4") && it.name.matches(Regex("[a-zA-Z0-9_.-]+"))}?.forEach{
+            device.executeShellCommand("cp ${it.path} $target/${it.name}")
+        }
+    }
+    @After fun exportEvidence(){exportCaptures()}
     @Before fun configure(){Configurator.getInstance().setWaitForIdleTimeout(500)}
     @get:Rule val failure=object:org.junit.rules.TestWatcher(){override fun failed(e:Throwable,d:org.junit.runner.Description){screenshot("failure-${d.methodName}")}}
 
@@ -63,8 +71,10 @@ class CustomUiTest {
             click("Save");assertTrue(device.wait(Until.hasObject(By.text(context.getString(R.string.validation_title))),5000))
             val field=device.findObjects(By.clazz("android.widget.EditText")).first();field.click();field.text=name
             screenshot("editor-keyboard");device.pressBack();screenshot("editor")
-            click("Choose date");screenshot("date-picker");click("Save")
-            click("Choose time");screenshot("time-picker");click("Save");click("Save")
+            click("Choose date");assertTrue(device.wait(Until.hasObject(By.desc("Previous month")),5000));screenshot("date-picker");click("Save")
+            assertTrue(device.wait(Until.hasObject(By.text(context.getString(R.string.description))),5000))
+            click("Choose time");assertTrue(device.wait(Until.hasObject(By.text("Hour")),5000));screenshot("time-picker");click("Save")
+            assertTrue(device.wait(Until.hasObject(By.text(context.getString(R.string.description))),5000));click("Save")
             assertTrue(device.wait(Until.hasObject(By.text(name)),5000));screenshot("task-card")
             val task=repo.snapshot.first().tasks.first{it.title==name}
             launch();assertTrue(device.wait(Until.hasObject(By.text(name)),10000))
@@ -72,7 +82,10 @@ class CustomUiTest {
             click(name);val title=device.findObjects(By.clazz("android.widget.EditText")).first();title.click();title.text="$name edited"
             device.pressBack();click("Save");assertTrue(device.wait(Until.hasObject(By.text("$name edited")),5000))
             description("Mark completed");click("Completed");assertTrue(device.wait(Until.hasObject(By.text("$name edited")),5000))
-            description("Delete task");click("Cancel");assertTrue(device.hasObject(By.text("$name edited")))
+            description("Delete task");click("Cancel")
+            assertTrue("Confirmation did not finish its exit",device.wait(Until.gone(By.text("Cancel")),5000))
+            assertTrue(device.wait(Until.hasObject(By.text("$name edited")),5000))
+            assertEquals("Cancel deleted the persisted task",task.id,repo.snapshot.first().tasks.first{it.title=="$name edited"}.id)
             description("Delete task");screenshot("delete-confirmation");click("Delete task")
             assertTrue(device.wait(Until.gone(By.text("$name edited")),5000))
         } finally {

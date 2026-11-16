@@ -33,6 +33,7 @@ internal fun calendarCells(month:YearMonth,first:DayOfWeek):List<LocalDate?> {
     val month=YearMonth.from(initial).plusMonths(monthOffset);val first=WeekFields.of(locale).firstDayOfWeek
     val number=remember(locale){NumberFormat.getIntegerInstance(locale)}
     CemeteryDialog(close){
+        val exit=LocalOverlayExit.current
         CemeteryText(stringResource(R.string.choose_date),style=CemeteryDesign.type.title)
         Row(verticalAlignment=Alignment.CenterVertically){
             CemeteryIconButton(CemeteryGlyph.BACK,stringResource(R.string.previous_month),{monthOffset--},soft=false)
@@ -49,8 +50,8 @@ internal fun calendarCells(month:YearMonth,first:DayOfWeek):List<LocalDate?> {
                 }
             }
         }}
-        CemeteryButton(stringResource(R.string.save),{choose(LocalDate.ofEpochDay(epoch))},Modifier.fillMaxWidth())
-        CemeteryButton(stringResource(R.string.cancel),close,Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
+        CemeteryButton(stringResource(R.string.save),{exit{choose(LocalDate.ofEpochDay(epoch))}},Modifier.fillMaxWidth())
+        CemeteryDismissButton(stringResource(R.string.cancel),close,Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
     }
 }
 @Composable fun CemeteryTimeDialog(initial:LocalTime,close:()->Unit,choose:(LocalTime)->Unit){
@@ -61,6 +62,7 @@ internal fun calendarCells(month:YearMonth,first:DayOfWeek):List<LocalDate?> {
     var period by rememberSaveable{mutableIntStateOf(if(initial.hour>=12)1 else 0)}
     val h=hour.toIntOrNull();val m=minute.toIntOrNull();val valid=h!=null && h in (if(is24)0..23 else 1..12) && m!=null && m in 0..59
     CemeteryDialog(close){
+        val exit=LocalOverlayExit.current
         CemeteryText(stringResource(R.string.choose_time),style=CemeteryDesign.type.title)
         Row(horizontalArrangement=Arrangement.spacedBy(12.dp)){
             CemeteryTextField(hour,{hour=it.filter(Char::isDigit).take(2)},stringResource(R.string.hour),Modifier.weight(1f),keyboard=KeyboardOptions(keyboardType=KeyboardType.Number))
@@ -68,7 +70,7 @@ internal fun calendarCells(month:YearMonth,first:DayOfWeek):List<LocalDate?> {
         }
         if(!is24)Row(horizontalArrangement=Arrangement.spacedBy(12.dp)){DateFormatSymbols(locale).amPmStrings.forEachIndexed{i,label->CemeteryFilterTab(label,period==i,{period=i},Modifier.weight(1f))}}
         if(!valid)CemeteryText(stringResource(R.string.validation_time),color=CemeteryDesign.colors.error,style=CemeteryDesign.type.small)
-        CemeteryButton(stringResource(R.string.save),{if(valid)choose(LocalTime.of(if(is24)h!! else h!!%12+period*12,m!!))},Modifier.fillMaxWidth(),enabled=valid)
-        CemeteryButton(stringResource(R.string.cancel),close,Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
+        CemeteryButton(stringResource(R.string.save),{if(valid)exit{choose(LocalTime.of(if(is24)h!! else h!!%12+period*12,m!!))}},Modifier.fillMaxWidth(),enabled=valid)
+        CemeteryDismissButton(stringResource(R.string.cancel),close,Modifier.fillMaxWidth(),kind=ButtonKind.QUIET)
     }
 }

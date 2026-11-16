@@ -2,7 +2,7 @@
 
 A native, offline Android productivity app. Unfinished commitments become persistent gravestones; completing them brings flowers. There are no accounts, ads, analytics, scores, or cloud services.
 
-Current application: **0.1.1** (`versionCode` **2**). This patch fixes flower selection visuals, cemetery surface ownership during navigation, grave-sheet safe areas and camera-relative clouds. See [the patch report](docs/VISUAL_FIXES_0.1.1.md).
+Current application: **0.1.2** (`versionCode` **3**). This patch retains cemetery GPU resources across navigation, integrates the scene through a lifecycle-bound TextureView, lowers the fixed camera pitch by 5.86°, and adds shared, accessible motion throughout the custom UI. See [the patch report](docs/MOTION_0.1.2.md).
 
 ## Stack and requirements
 
@@ -30,8 +30,9 @@ The APK is a universal debug build containing arm64-v8a, armeabi-v7a, x86, and x
 
 ## Implementation
 
-The interface follows a custom cream/forest light theme and emerald dark theme with lime accents. CompositionLocal design tokens, explicit local Nunito variable-font weights, original Canvas icons and a smiling sprout illustration replace visible Material components. Tasks, forms, settings, confirmation dialogs, deadline pickers, grave panels and the floating bottom navigation share Foundation controls. Theme changes update immediately without recreating the Activity. System/language/theme preferences remain in the existing DataStore. The native 3D renderer and all Room/domain/notification code are unchanged by this UI redesign.
+The interface follows a custom cream/forest light theme and emerald dark theme with lime accents. CompositionLocal design tokens, explicit local Nunito variable-font weights, original Canvas icons and a smiling sprout illustration replace visible Material components. Tasks, forms, settings, confirmation dialogs, deadline pickers, grave panels and the floating bottom navigation share Foundation controls. Theme changes update immediately without recreating the Activity. System/language/theme preferences remain in the existing DataStore. The 3D scene now uses a retained render session and TextureView integration; its artwork, models, placements and object animation remain intact. Room/domain/notification code is unchanged by this polish task.
 
+- Shared easing and timings for button feedback, filters, sliding navigation selection, list item changes, native content, dialogs and sheets; live reduced-motion support and a subtle sprout-leaf idle. Panels retain their windows during exit, preserve insets and scrollability, and defer only UI dismissal.
 - Task creation, editing, localized deadline picking, completion, rescheduling, deletion with confirmation, active/overdue/completed lists and historical records.
 - Room persistence with documented, tested schema migrations; no destructive fallback. Original deadline and missed-deadline records survive edits. Unique `(taskId, missedDeadline)` indexing prevents duplicate graves.
 - Timestamp reconciliation on load, on resume, during visible use, before mutations, and through periodic WorkManager work. WorkManager execution and reminders are approximate, never exact alarms.
@@ -73,7 +74,9 @@ Application source, original copy, icon, and procedural artwork: [MIT](LICENSE).
 
 ## Verification status and limitations
 
-Version 0.1.1 passed 56 JVM tests and all 20 Android instrumentation tests, including flower/halo cleanup and repeated reduced-motion selection, fixed Close positioning at 2× text and in landscape, 20 tab round trips plus rapid switching, shared-engine/view cleanup, camera-relative clouds across far panning/zoom, and existing native animation/data/notification regressions. See [the 0.1.1 report](docs/VISUAL_FIXES_0.1.1.md), `docs/verification/0.1.1/` and `docs/screenshots/0.1.1/`.
+Version 0.1.2 passed 59 JVM tests and verified all 21 Android cases across the full run and a targeted rerun after transition-aware test synchronization. Checks cover real texture readiness, retained GPU resources, 20 tab round trips plus rapid switching, pixel absence of stale 3D content, camera preservation, both themes/languages, CRUD/persistence, safe areas and the recorded native object turn. See [the motion report](docs/MOTION_0.1.2.md) and [test matrix](docs/verification/0.1.2/TEST_MATRIX.md).
+
+The previous version 0.1.1 passed 56 JVM tests and all 20 Android instrumentation tests, including flower/halo cleanup and repeated reduced-motion selection, fixed Close positioning at 2× text and in landscape, 20 tab round trips plus rapid switching, shared-engine/view cleanup, camera-relative clouds across far panning/zoom, and existing native animation/data/notification regressions. See [the 0.1.1 report](docs/VISUAL_FIXES_0.1.1.md), `docs/verification/0.1.1/` and `docs/screenshots/0.1.1/`.
 
 The custom UI redesign passed 56 JVM tests and all 18 Android instrumentation tests. After visual polish, all eight UI/native interaction tests passed again; two targeted portrait/large-text/landscape panel-inset tests also passed. Actual light/dark English/Russian captures, forms, settings and a 320 dp / 2× text keyboard capture are in `docs/screenshots/custom-ui/`. The native renderer/material hashes remain unchanged.
 

@@ -1,5 +1,6 @@
 package org.cemetery.app.feature.tasks
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -20,6 +21,9 @@ import org.cemetery.app.ui.*
     var filter by rememberSaveable{mutableIntStateOf(0)}
     val tasks=snapshot.tasks.filter{when(filter){0->it.completedAt==null && it.deadline>=now;1->it.completedAt==null && it.deadline<now;else->it.completedAt!=null}}
     val c=CemeteryDesign.colors
+    val listState=rememberLazyListState()
+    val cardSpec=CemeteryMotion.spec<Float>(CemeteryMotion.CARD)
+    val placementSpec=CemeteryMotion.spec<androidx.compose.ui.unit.IntOffset>(CemeteryMotion.CARD)
     @Composable fun introduction(){
         Box(Modifier.fillMaxWidth().padding(bottom=22.dp)){
             CemeteryText(stringResource(R.string.tasks_intro),Modifier.fillMaxWidth().padding(end=12.dp),style=CemeteryDesign.type.heading)
@@ -44,7 +48,7 @@ import org.cemetery.app.ui.*
                 if(filter==0)CemeteryText(stringResource(R.string.empty_tasks_body),Modifier.fillMaxWidth().padding(top=10.dp,start=12.dp,end=12.dp),color=c.secondary,align=TextAlign.Center)
                 Spacer(Modifier.weight(1f))
             }else{
-                LazyColumn(Modifier.weight(1f),contentPadding=PaddingValues(top=12.dp,bottom=20.dp),verticalArrangement=Arrangement.spacedBy(14.dp)){
+                LazyColumn(Modifier.weight(1f),state=listState,contentPadding=PaddingValues(top=12.dp,bottom=20.dp),verticalArrangement=Arrangement.spacedBy(14.dp)){
                     item{Column{introduction()}}
                     if(tasks.isEmpty())item{
                         Column(Modifier.fillMaxWidth(),horizontalAlignment=Alignment.CenterHorizontally){
@@ -53,23 +57,25 @@ import org.cemetery.app.ui.*
                             if(filter==0)CemeteryText(stringResource(R.string.empty_tasks_body),Modifier.padding(top=10.dp),color=c.secondary,align=TextAlign.Center)
                         }
                     }
-                    items(tasks,key={it.id}){task->CemeteryTaskCard(task,now,{edit(task)},{complete(task)},snapshot.graves.lastOrNull{it.taskId==task.id}?.let{g->{visit(g)}},{remove(task)})}
+                    items(tasks,key={it.id}){task->CemeteryTaskCard(Modifier.animateItem(fadeInSpec=cardSpec,placementSpec=placementSpec,fadeOutSpec=cardSpec),task,now,{edit(task)},{complete(task)},snapshot.graves.lastOrNull{it.taskId==task.id}?.let{g->{visit(g)}},{remove(task)})}
                 }
             }
             CemeteryButton(stringResource(R.string.new_task),{edit(null)},Modifier.fillMaxWidth().padding(top=16.dp,bottom=20.dp),glyph=CemeteryGlyph.PLUS)
         }
     }
 }
-@Composable private fun CemeteryTaskCard(task:Task,now:Long,edit:()->Unit,complete:()->Unit,visit:(()->Unit)?,remove:()->Unit){
+@Composable private fun CemeteryTaskCard(modifier:Modifier,task:Task,now:Long,edit:()->Unit,complete:()->Unit,visit:(()->Unit)?,remove:()->Unit){
     val c=CemeteryDesign.colors;val context=LocalContext.current;val status=task.status(now)
-    CemeteryPanel(Modifier.fillMaxWidth().clickable(onClick=edit),color=if(status==TaskStatus.OVERDUE)c.elevated else c.surface){
+    var completing by remember(task.id,task.completedAt){mutableStateOf(false)}
+    val tint by animateColorAsState(if(completing)c.selected else if(status==TaskStatus.OVERDUE)c.elevated else c.surface,CemeteryMotion.spec(CemeteryMotion.CARD),label="task-state")
+    CemeteryPanel(modifier.fillMaxWidth().clickable(onClick=edit),color=tint){
         Column(Modifier.padding(18.dp),verticalArrangement=Arrangement.spacedBy(10.dp)){
             Row(verticalAlignment=Alignment.CenterVertically){
                 Column(Modifier.weight(1f)){
                     CemeteryText(task.title,style=CemeteryDesign.type.button)
                     CemeteryText(stringResource(statusResource(status)),style=CemeteryDesign.type.small,color=c.secondary)
                 }
-                if(task.completedAt==null)CemeteryCheckbox(false,complete,stringResource(R.string.done)) else CemeteryIcon(CemeteryGlyph.TASKS,color=c.secondary)
+                if(task.completedAt==null)CemeteryCheckbox(completing,{if(!completing){completing=true;complete()}},stringResource(R.string.done)) else CemeteryIcon(CemeteryGlyph.TASKS,color=c.secondary)
             }
             if(task.description.isNotBlank())CemeteryText(task.description,maxLines=3)
             Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(8.dp)){

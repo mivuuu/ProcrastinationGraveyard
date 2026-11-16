@@ -11,7 +11,7 @@ import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
 import androidx.test.uiautomator.*
 import dagger.hilt.android.EntryPointAccessors
-import io.github.sceneview.SceneView
+import org.cemetery.app.feature.cemetery.CemeteryTextureView as SceneView
 import io.github.sceneview.math.Position
 import io.github.sceneview.node.Node
 import kotlinx.coroutines.flow.first
@@ -19,6 +19,8 @@ import kotlinx.coroutines.runBlocking
 import org.cemetery.app.data.Settings
 import org.cemetery.app.domain.Grave
 import org.cemetery.app.feature.cemetery.StoneSpec
+import org.cemetery.app.feature.cemetery.CemeteryViewportState
+import org.cemetery.app.feature.cemetery.CemeteryRenderSession
 import org.cemetery.app.feature.notifications.WorkerDependencies
 import org.junit.*
 import org.junit.Assert.*
@@ -63,7 +65,12 @@ class VisualFixTest {
         try{device.findObjects(By.text(text)).last().click();device.waitForIdle();return}catch(e:StaleObjectException){if(attempt==3)throw e;SystemClock.sleep(80)}
     }}
     private fun launch(){context.startActivity(Intent(context,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK));assertTrue(device.wait(Until.hasObject(By.text("Tasks")),15000));click("Cemetery");ready()}
-    private fun ready(){assertTrue(device.wait(Until.gone(By.text("Preparing the garden…")),15000));onScene{assertTrue(it.lifecycle!!.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED))}}
+    private fun ready(){
+        val until=SystemClock.uptimeMillis()+15000
+        var rendered=false
+        do{onScene{rendered=(it.tag as CemeteryViewportState).gate.ready};if(!rendered)SystemClock.sleep(30)}while(!rendered && SystemClock.uptimeMillis()<until)
+        assertTrue("Surface did not submit a completed GPU frame",rendered)
+        assertTrue(device.wait(Until.gone(By.text("Preparing the garden…")),15000));onScene{assertTrue(it.lifecycle!!.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED))}}
     private fun frame():FloatArray{var value=FloatArray(7);onScene{val c=it.cameraNode;value=floatArrayOf(c.position.x,c.position.y,c.position.z,c.rotation.x,c.rotation.y,c.rotation.z,(c.focalLength*1000).toFloat())};return value}
     private fun tap(g:Grave){var x=0;var y=0;onScene{v->val p=v.cameraNode.worldToView(Position(g.x,StoneSpec(g).height*.82f,g.z+.27f));val o=IntArray(2);v.getLocationOnScreen(o);x=o[0]+(p.x*v.width).toInt();y=o[1]+((1-p.y)*v.height).toInt()};device.click(x,y)}
     private fun inspect(){assertTrue(device.wait(Until.hasObject(By.res("grave-sheet")),6000))}
@@ -141,18 +148,53 @@ class VisualFixTest {
         repeat(12){i->SystemClock.sleep(18);send(android.view.MotionEvent.ACTION_MOVE,2,100f*(1+(ratio-1)*(i+1)/12))}
         send(android.view.MotionEvent.ACTION_POINTER_UP or (1 shl 8),2,100f*ratio);send(android.view.MotionEvent.ACTION_UP,1,100f*ratio)
     }
+    private fun awaitNativeFrame(){
+        // Accessibility can update before HWUI submits the destination's first buffer.
+        // Await an actual window frame rather than sleeping or polling for a desired pixel color.
+        val committed=java.util.concurrent.CountDownLatch(1)
+        instrumentation.runOnMainSync{
+            val root=ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED).first().window.decorView
+            root.viewTreeObserver.registerFrameCommitCallback{committed.countDown()}
+            root.postInvalidateOnAnimation()
+        }
+        assertTrue("Native destination did not commit a frame",committed.await(5,java.util.concurrent.TimeUnit.SECONDS))
+        device.waitForIdle()
+    }
     private fun assertTasksHaveNoSurface(name:String){
         assertTrue(device.wait(Until.hasObject(By.text(context.getString(R.string.tasks_intro))),5000))
         assertTrue("Cemetery surface leaked into Tasks",scenes().isEmpty())
+        awaitNativeFrame()
         val screenshot=File(context.getExternalFilesDir(null),"$name.png");device.takeScreenshot(screenshot)
         val bitmap=BitmapFactory.decodeFile(screenshot.path);var sky=0
         for(y in 0 until bitmap.height step 8)for(x in 0 until bitmap.width step 8){val p=bitmap.getPixel(x,y);val r=android.graphics.Color.red(p);val g=android.graphics.Color.green(p);val b=android.graphics.Color.blue(p);if(b>g+15 && g>r+15 && b>140)sky++}
         bitmap.recycle();assertEquals("A stale sky surface is visible over Tasks",0,sky)
     }
+    private fun assertReadyPixels(){
+        var bounds=android.graphics.Rect()
+        onScene{s->val o=IntArray(2);s.getLocationOnScreen(o);bounds=android.graphics.Rect(o[0],o[1],o[0]+s.width,o[1]+s.height)}
+        val file=File(context.cacheDir,"rendered-frame.png");device.takeScreenshot(file)
+        val bitmap=BitmapFactory.decodeFile(file.path)
+        var blue=0;var green=0;var black=0;var total=0
+        for(y in bounds.top until bounds.bottom step 12)for(x in bounds.left until bounds.right step 12){
+            val p=bitmap.getPixel(x,y);val r=android.graphics.Color.red(p);val g=android.graphics.Color.green(p);val b=android.graphics.Color.blue(p)
+            if(b>g+15 && g>r+15 && b>140)blue++
+            if(g>r*1.1f && g>b*1.3f)green++
+            if(r<10 && g<10 && b<10)black++
+            total++
+        }
+        bitmap.recycle();file.delete()
+        assertTrue("Ready viewport has no sky",blue>total/20)
+        assertTrue("Ready viewport is an empty backdrop, with no forest/grass",green>total/10)
+        assertTrue("Ready viewport contains a black/blank surface",black<total/20)
+    }
+    @Test fun firstFrameIsRendered(){launch();assertReadyPixels();capture("ready-frame")}
     @Test fun repeatedTabsKeepOneEngineAndCameraRelativeClouds()=runBlocking<Unit>{
         val repo=deps.repository();repeat(48){repo.save("visual-fix-world-$it","World promise $it","",System.currentTimeMillis()-60_000)}
         val originalGraves=repo.snapshot.first().graves
-        launch();var engine:com.google.android.filament.Engine?=null;onScene{engine=it.engine}
+        launch();assertReadyPixels()
+        var engine:com.google.android.filament.Engine?=null
+        var session:CemeteryRenderSession?=null
+        onScene{engine=it.engine;session=(it.tag as CemeteryViewportState).session}
         val clouds=cloudPoints();val initial=frame()
         repeat(8){pan(true)};SystemClock.sleep(800);val left=frame();assertTrue(kotlin.math.abs(initial[0]-left[0])>5f);assertArrayEquals(clouds,cloudPoints(),.002f);capture("clouds-far-right")
         repeat(16){pan(false)};SystemClock.sleep(800);val right=frame();assertTrue(kotlin.math.abs(left[0]-right[0])>10f);assertArrayEquals(clouds,cloudPoints(),.002f);capture("clouds-far-left")
@@ -165,7 +207,15 @@ class VisualFixTest {
             click("Tasks");assertTasksHaveNoSurface("tasks-cycle-$cycle")
             instrumentation.runOnMainSync{assertFalse("Old viewport is still attached",previous!!.isAttachedToWindow);assertNull(previous!!.lifecycle);assertFalse(previous!!.uiHelper.isReadyToRender);assertNull(previous!!.onFrame)}
             if(cycle==0 || cycle==10)capture("tasks-no-surface-$cycle")
-            click("Cemetery");ready();onScene{assertSame("Filament engine recreated on a tab switch",engine,it.engine)}
+            click("Cemetery");ready();onScene{
+                assertSame("Filament engine recreated on a tab switch",engine,it.engine)
+                val retainedState=it.tag as CemeteryViewportState
+                assertSame("GPU session recreated on a tab switch",session,retainedState.session)
+                assertSame(session!!.renderer,it.renderer);assertSame(session!!.view,it.view)
+                assertSame(session!!.scene,it.scene);assertTrue(retainedState.gate.ready)
+                assertEquals("Readback kept running after readiness",1,retainedState.gate.probes)
+            }
+            assertReadyPixels()
             assertArrayEquals("Tab switch reset the camera",retained,frame(),.003f)
             assertArrayEquals("Cloud layer jumped after navigation",clouds,cloudPoints(),.002f)
         }
@@ -182,6 +232,7 @@ class VisualFixTest {
         assertTrue(device.wait(Until.hasObject(By.text(context.getString(R.string.about_body,installed))),5000));capture("about-version")
     }
     @After fun cleanup()=runBlocking<Unit>{
+        capture("last-visible")
         device.pressHome()
         device.executeShellCommand("settings put global animator_duration_scale $originalMotion")
         deps.repository().snapshot.first().tasks.filter{it.id.startsWith("visual-fix-")}.forEach{deps.repository().delete(it.id)}

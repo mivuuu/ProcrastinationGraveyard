@@ -1,6 +1,11 @@
 package org.cemetery.app.core
 
 import android.animation.ValueAnimator
+import android.database.ContentObserver
+import android.os.Handler
+import android.os.Looper
+import android.provider.Settings
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -53,6 +58,14 @@ object CemeteryDesign {
 }
 @Composable fun CemeteryTheme(dark:Boolean,content: @Composable () -> Unit) {
     val typography=remember{CemeteryTypography()}
+    val resolver=LocalContext.current.contentResolver
+    fun motionAllowed()=Settings.Global.getFloat(resolver,Settings.Global.ANIMATOR_DURATION_SCALE,1f)>0f
+    var motion by remember(resolver){mutableStateOf(motionAllowed())}
+    DisposableEffect(resolver){
+        val observer=object:ContentObserver(Handler(Looper.getMainLooper())){override fun onChange(selfChange:Boolean){motion=motionAllowed()}}
+        resolver.registerContentObserver(Settings.Global.getUriFor(Settings.Global.ANIMATOR_DURATION_SCALE),false,observer)
+        onDispose{resolver.unregisterContentObserver(observer)}
+    }
     CompositionLocalProvider(LocalColors provides if(dark)DarkCemeteryColors else LightCemeteryColors,
-        LocalTypography provides typography,LocalMotion provides ValueAnimator.areAnimatorsEnabled(),content=content)
+        LocalTypography provides typography,LocalMotion provides motion,content=content)
 }
